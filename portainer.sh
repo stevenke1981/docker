@@ -25,40 +25,46 @@ function check_portainer_data_volume() {
 
 # 主程式
 
-check_docker_install
 
-if check_portainer_data_volume; then
+
+#if check_portainer_data_volume; then
 
   # 詢問是否刪除 Portainer 資料卷
 
   echo "是否刪除 Portainer 資料卷？ (y/n)"
   read -r answer
 
-  if [ "$answer" == "y" ]; then
+  #if [ "$answer" == "y" ]; then
 
     # 先停止使用 Portainer 資料卷的容器
 
-    docker ps -a | grep portainer_data | awk '{print $1}' | xargs docker stop
+   
+    #docker ps -a | grep portainer_data | awk '{print $1}' | xargs docker stop
 
     # 刪除 Portainer 資料卷
 
-    docker volume rm portainer_data
+    #docker volume rm portainer_data
 
-  else
+  #else
 
     # 跳出安裝程式
 
-    exit 0
+   # exit 0
 
-  fi
+  #fi
 
-fi
+#fi
 
 # 安裝 Docker
 
 # 建立 Portainer 資料卷
-
-docker volume create portainer_data
+if check_docker_install
+    docker volume create portainer_data
+    echo "portainer data Volume建立成功!"
+else
+    echo "Docker 未安裝。請先安裝 Docker。"
+    exit 1
+fi
 
 # 執行 Portainer 容器
 
