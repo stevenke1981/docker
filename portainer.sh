@@ -31,8 +31,8 @@ function check_portainer_data_volume() {
 
   # 詢問是否刪除 Portainer 資料卷
 
-  echo "是否刪除 Portainer 資料卷？ (y/n)"
-  read -r answer
+  #echo "是否刪除 Portainer 資料卷？ (y/n)"
+  #read -r answer
 
   #if [ "$answer" == "y" ]; then
 
