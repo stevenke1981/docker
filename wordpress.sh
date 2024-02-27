@@ -31,4 +31,4 @@ docker run -e WORDPRESS_DB_USER="$wp_db_user" \
           --name wpcontainer --restart unless-stopped -d wordpress
 
 echo "MariaDB setup is complete."
-echo "WordPress setup is ready. Visit http://localhost:8081 to complete the installation."
+echo "WordPress setup is ready. Visit http://$(hostname -I | awk '{print $1}'):8081 to complete the installation."
