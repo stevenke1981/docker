@@ -9,7 +9,8 @@ function remove_wordpress() {
   docker rm wordpressdb wpcontainer
 
   # 移除持久化資料
-  rm -rf ~/wordpress/database ~/wordpress/html
+  #rm -rf ~/wordpress/database ~/wordpress/html
+  rm -rf ~/wordpress
 
   echo "WordPress 和 MariaDB 已移除。"
 }
