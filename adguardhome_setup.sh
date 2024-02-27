@@ -8,11 +8,9 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-# Check if systemd-resolved is running
-if ! systemctl is-active systemd-resolved; then
-  echo "systemd-resolved 沒有在執行。腳本執行已停止。"
-  exit 0
-fi
+# Define constants
+WORK_DIR="${HOME}/adguardhome/work"
+CONFIG_DIR="${HOME}/adguardhome/config"
 
 # Define function to remove AdGuard Home
 function remove_adguardhome() {
@@ -26,10 +24,16 @@ function remove_adguardhome() {
   rm -f /etc/systemd/resolved.conf.d/adguardhome.conf
 
   # Remove directories
-  rm -rf "$work_dir" "$config_dir"
+  rm -rf "$WORK_DIR" "$CONFIG_DIR"
 
   echo "AdGuard Home 已移除。"
 }
+
+# Check if systemd-resolved is running
+if ! systemctl is-active systemd-resolved; then
+  echo "systemd-resolved 沒有在執行。腳本執行已停止。"
+  exit 0
+fi
 
 # Configure systemd-resolved for AdGuard Home
 cat <<EOF > /etc/systemd/resolved.conf.d/adguardhome.conf
@@ -40,51 +44,50 @@ EOF
 
 systemctl reload-or-restart systemd-resolved
 
-# 顯示選單
-echo "** AdGuard Home 安裝和移除工具 **"
-echo "1. 安裝 AdGuard Home"
-echo "2. 移除 AdGuard Home (一鍵)"
-echo "3. 離開"
-read -p "輸入您的選擇： " choice
+# Display menu and handle user input
+while true; do
+  echo "** AdGuard Home 安裝和移除工具 **"
+  echo "1. 安裝 AdGuard Home"
+  echo "2. 移除 AdGuard Home (一鍵)"
+  echo "3. 離開"
+  read -p "輸入您的選擇： " choice
 
-# 處理使用者輸入
-case "$choice" in
-  1)
-# 設定工作目錄和設定檔目錄
-work_dir="~/adguardhome/work"
-config_dir="~/adguardhome/config"
+  case "$choice" in
+    1)
+      # Ensure directories exist
+      if [ ! -d "$WORK_DIR" ]; then
+        echo "建立工作目錄：$WORK_DIR"
+        mkdir -p "$WORK_DIR"
+      fi
 
-# 檢查目錄是否存在
-if [ ! -d "$work_dir" ]; then
-  echo "建立工作目錄：$work_dir"
-  mkdir -p "$work_dir"
-fi
+      if [ ! -d "$CONFIG_DIR" ]; then
+        echo "建立設定檔目錄：$CONFIG_DIR"
+        mkdir -p "$CONFIG_DIR"
+      fi
 
-if [ ! -d "$config_dir" ]; then
-  echo "建立設定檔目錄：$config_dir"
-  mkdir -p "$config_dir"
-fi
-  
-    # Run AdGuard Home in a Docker container with optimization flags
-    docker run \
-      --name adguardhome \
-      --restart unless-stopped \
-      -v "$work_dir":/opt/adguardhome/work \
-      -v "$config_dir":/opt/adguardhome/conf \
-      -p 53:53/tcp -p 53:53/udp \
-      -p 3000:3000/tcp \
-      -d adguard/adguardhome
+      # Run AdGuard Home in a Docker container
+      docker run \
+        --name adguardhome \
+        --restart unless-stopped \
+        -v "$WORK_DIR":/opt/adguardhome/work \
+        -v "$CONFIG_DIR":/opt/adguardhome/conf \
+        -p 53:53/tcp -p 53:53/udp \
+        -p 3000:3000/tcp \
+        -d adguard/adguardhome
 
-    echo "AdGuard Home 伺服器可於 http://$(hostname -I | awk '{print $1}'):3000 存取"
-    ;;
-  2)
-    remove_adguardhome
-    ;;
-  3)
-    echo "離開..."
-    exit 0
-    ;;
-  *)
-    echo "無效的選擇。"
-    ;;
-esac
+      echo "AdGuard Home 伺服器可於 http://$(hostname -I | awk '{print $1}'):3000 存取"
+      break
+      ;;
+    2)
+      remove_adguardhome
+      break
+      ;;
+    3)
+      echo "離開..."
+      exit 0
+      ;;
+    *)
+      echo "無效的選擇。"
+      ;;
+  esac
+done
