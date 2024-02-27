@@ -2,6 +2,7 @@
 
 # 停止 Docker 服務
 sudo systemctl stop docker
+sudo systemctl stop docker.socket
 
 # 備份 Docker 配置
 sudo cp /etc/docker/daemon.json /etc/docker/daemon.json.bak
