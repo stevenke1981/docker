@@ -13,9 +13,19 @@ if docker volume ls | grep -q "portainer_data"; then
 
   if [ "$answer" == "y" ]; then
 
+    # 先停止 Portainer 容器
+
+    docker stop portainer
+
     # 刪除 Portainer 資料卷
 
     docker volume rm portainer_data
+
+  else
+
+    # 跳出安裝程式
+
+    exit 0
 
   fi
 
@@ -44,3 +54,4 @@ docker run -d \
 
 echo "Portainer 網址：http://$(hostname -I | awk '{print $1}'):9000"
 echo "Portainer 網址：http://$(hostname -I | awk '{print $1}'):9443"
+
