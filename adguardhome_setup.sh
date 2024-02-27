@@ -40,6 +40,16 @@ EOF
 
 systemctl reload-or-restart systemd-resolved
 
+# 顯示選單
+echo "** AdGuard Home 安裝和移除工具 **"
+echo "1. 安裝 AdGuard Home"
+echo "2. 移除 AdGuard Home (一鍵)"
+echo "3. 離開"
+read -p "輸入您的選擇： " choice
+
+# 處理使用者輸入
+case "$choice" in
+  1)
 # 設定工作目錄和設定檔目錄
 work_dir="~/adguardhome/work"
 config_dir="~/adguardhome/config"
@@ -54,23 +64,13 @@ if [ ! -d "$config_dir" ]; then
   echo "建立設定檔目錄：$config_dir"
   mkdir -p "$config_dir"
 fi
-
-# 顯示選單
-echo "** AdGuard Home 安裝和移除工具 **"
-echo "1. 安裝 AdGuard Home"
-echo "2. 移除 AdGuard Home (一鍵)"
-echo "3. 離開"
-read -p "輸入您的選擇： " choice
-
-# 處理使用者輸入
-case "$choice" in
-  1)
+  
     # Run AdGuard Home in a Docker container with optimization flags
     docker run \
       --name adguardhome \
       --restart unless-stopped \
-      -v ~/adguardhome/work:/opt/adguardhome/work \
-      -v "~/adguardhome/config":/opt/adguardhome/conf \
+      -v "$work_dir":/opt/adguardhome/work \
+      -v "$config_dir":/opt/adguardhome/conf \
       -p 53:53/tcp -p 53:53/udp \
       -p 3000:3000/tcp \
       -d adguard/adguardhome
