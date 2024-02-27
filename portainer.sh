@@ -13,9 +13,9 @@ if docker volume ls | grep -q "portainer_data"; then
 
   if [ "$answer" == "y" ]; then
 
-    # 先停止 Portainer 容器
+    # 停止使用 Portainer 資料卷的容器
 
-    docker stop portainer
+    docker ps -a | grep portainer_data | awk '{print $1}' | xargs docker stop
 
     # 刪除 Portainer 資料卷
 
