@@ -9,7 +9,7 @@ sudo cp /etc/docker/daemon.json /etc/docker/daemon.json.bak
 
 # 移除 Docker 軟件包
 #sudo apt remove docker.io --purge
-sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
+sudo apt-get purge -q docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
 
 #刪除
 sudo rm -rf /var/lib/docker
