@@ -50,7 +50,7 @@ case "$choice" in
       --name wpcontainer --restart unless-stopped -d wordpress
 
     echo "MariaDB 安裝完成。"
-    echo "WordPress 安裝完成。請訪問 http://localhost:8081 完成安裝。"
+    echo "WordPress 安裝完成。請訪問 http://$(hostname -I | awk '{print $1}'):8081 完成安裝。"
     ;;
   2)
     remove_wordpress
