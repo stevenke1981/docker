@@ -11,71 +11,27 @@ function check_docker_install() {
   fi
 }
 
-# 檢查安裝 Portainer 資料卷
-
-function check_portainer_data_volume() {
-  if docker volume ls | grep -q "portainer_data"; then
-    echo "Portainer 資料卷已存在。"
-    return 0
-  else
-    echo "Portainer 資料卷不存在。"
-    return 1
-  fi
-}
-
 # 主程式
 
+# 檢查 Docker 安裝
 
-
-#if check_portainer_data_volume; then
-
-  # 詢問是否刪除 Portainer 資料卷
-
-  #echo "是否刪除 Portainer 資料卷？ (y/n)"
-  #read -r answer
-
-  #if [ "$answer" == "y" ]; then
-
-    # 先停止使用 Portainer 資料卷的容器
-
-   
-    #docker ps -a | grep portainer_data | awk '{print $1}' | xargs docker stop
-
-    # 刪除 Portainer 資料卷
-
-    #docker volume rm portainer_data
-
-  #else
-
-    # 跳出安裝程式
-
-   # exit 0
-
-  #fi
-
-#fi
-
-# 安裝 Docker
+check_docker_install
 
 # 建立 Portainer 資料卷
-if check_docker_install
-    docker volume create portainer_data
-    echo "portainer data Volume建立成功!"
-else
-    echo "Docker 未安裝。請先安裝 Docker。"
-    exit 1
-fi
+
+docker volume create portainer_data
+echo "Portainer 資料卷建立成功!"
 
 # 執行 Portainer 容器
 
 docker run -d \
- -p 9000:9000 \
- -p 9443:9443 \
- --name portainer \
- --restart=always \
- -v /var/run/docker.sock:/var/run/docker.sock \
- -v portainer_data:/data \
- portainer/portainer-ce:latest
+  -p 9000:9000 \
+  -p 9443:9443 \
+  --name portainer \
+  --restart=always \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v portainer_data:/data \
+  portainer/portainer-ce:latest
 
 # 顯示 Portainer 網址
 
