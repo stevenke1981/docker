@@ -13,7 +13,7 @@ docker volume create portainer_data
 # 執行 Portainer 容器
 
 docker run -d \
-  -p 8000:8000 \
+  -p 9000:9000 \
   -p 9443:9443 \
   --name portainer \
   --restart=always \
@@ -23,5 +23,5 @@ docker run -d \
 
 # 顯示 Portainer 網址
 
-echo "Portainer 網址：http://<您的 Portainer IP>:8000"
-echo "Portainer 網址：https://<您的 Portainer IP>:9443"
+echo "Portainer 網址：http://$(hostname -I | awk '{print $1}'):9000"
+echo "Portainer 網址：http://$(hostname -I | awk '{print $1}'):9443"
