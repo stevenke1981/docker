@@ -69,8 +69,8 @@ case "$choice" in
     docker run \
       --name adguardhome \
       --restart unless-stopped \
-      -v "$work_dir":/opt/adguardhome/work \
-      -v "$config_dir":/opt/adguardhome/conf \
+      -v ~/adguardhome/work:/opt/adguardhome/work \
+      -v "~/adguardhome/config":/opt/adguardhome/conf \
       -p 53:53/tcp -p 53:53/udp \
       -p 3000:3000/tcp \
       -d adguard/adguardhome
