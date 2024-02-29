@@ -1,6 +1,7 @@
 #!/bin/bash
-#version 1.1.0
-set -euo   # Enable error handling for robustness
+#version 1.1.1
+
+set -euo pipefail # Enable error handling for robustness
 
 # Ensure root privileges
 if [[ $EUID -ne 0 ]]; then
@@ -36,15 +37,16 @@ if ! systemctl is-active systemd-resolved; then
 fi
 
 # Configure systemd-resolved for AdGuard Home
-if [ ! -f /etc/systemd/resolved.conf.d/adguardhome.conf ]; then
- cat <<EOF > /etc/systemd/resolved.conf.d/adguardhome.conf
-[Resolve]
+function configure_systemd_resolved() {
+  if [ ! -f /etc/systemd/resolved.conf.d/adguardhome.conf ]; then
+    echo "建立設定檔 /etc/systemd/resolved.conf.d/adguardhome.conf..."
+    echo '[Resolve]
 DNS=127.0.0.1
-DNSStubListener=no
-EOF
-fi
+DNSStubListener=no' | sudo tee /etc/systemd/resolved.conf.d/adguardhome.conf
+  fi
 
-systemctl reload-or-restart systemd-resolved
+  systemctl reload-or-restart systemd-resolved
+}
 
 # Display menu and handle user input
 while true; do
@@ -94,3 +96,4 @@ while true; do
  esac
 done
 
+configure_systemd_resolved
