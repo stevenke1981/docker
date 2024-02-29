@@ -41,6 +41,9 @@ function remove_adguardhome() {
   # Stop and remove container
   docker stop adguardhome
   docker rm adguardhome
+  rm /etc/resolv.conf
+  mv /etc/resolv.conf.backup /etc/resolv.conf
+  systemctl restart systemd-resolved
 
   # Prompt user to keep or remove directories
   while true; do
