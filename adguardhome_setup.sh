@@ -1,6 +1,6 @@
 #!/bin/bash
 #version 1.1.0
-set -euo pipefail # Enable error handling for robustness
+set -euo   # Enable error handling for robustness
 
 # Ensure root privileges
 if [[ $EUID -ne 0 ]]; then
