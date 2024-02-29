@@ -29,7 +29,7 @@ function install_homeassistant() {
 
   # Start HomeAssistant container (remove newline character for clarity)
   docker run -d --name homeassistant --privileged --restart unless-stopped \
-    -p 8123:8123 -e TZ=Asia/Taipei -v "$HOME/homeassistant/config:/config" --network host homeassistant/home-assistant:stable
+    -p 8123:8123/tcp -e TZ=Asia/Taipei -v "$HOME/homeassistant/config:/config" --network host homeassistant/home-assistant:stable
   echo "HomeAssist 安裝完成。"
   echo "HomeAssist accessible at: http://$(hostname -I | awk '{print $1}'):8123"
 }
