@@ -36,21 +36,19 @@ while true; do
 
       # 創建 openHAB 用戶
 
-      sudo useradd -m openhab
+      sudo groupadd -g 9001 openhab
+      sudo useradd -g 9001 openhab
+      sudo usermod -a -G openhab openhab
 
       # 創建 openHAB 配置、用戶數據和附加組件目錄
 
-      sudo mkdir -p /etc/openhab /var/lib/openhab /usr/share/openhab/addons
+      #sudo mkdir -p /etc/openhab /var/lib/openhab /usr/share/openhab/addons
 
-      # Create the openhab user
-
-      sudo useradd -r -s /sbin/nologin openhab
-      sudo usermod -a -G openhab openhab
 
       #Create the openHAB conf, userdata, and addon directories
 
-      sudo mkdir -p /opt/openhab/{conf,userdata,addons}
-      sudo chown -R openhab:openhab /opt/openhab
+      #sudo mkdir -p /opt/openhab/{conf,userdata,addons}
+      #sudo chown -R openhab:openhab /opt/openhab
       
 
       # 啟動 openHAB
