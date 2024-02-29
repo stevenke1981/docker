@@ -43,6 +43,7 @@ function remove_adguardhome() {
   docker rm adguardhome
   rm /etc/resolv.conf
   mv /etc/resolv.conf.backup /etc/resolv.conf
+  sudo rm -rf /etc/systemd/resolved.conf.d
   systemctl restart systemd-resolved
 
   # Prompt user to keep or remove directories
