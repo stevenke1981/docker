@@ -25,7 +25,11 @@ function install_homeassistant() {
  # fi
 
   # Create HomeAssistant directories
-  mkdir -p "$HOME/homeassistant/config" "$HOME/homeassistant/addone"
+  mkdir -p "$HOME/homeassistant/config" "$HOME/homeassistant/config"
+
+  # Create hacs directories
+  mkdir -p "$HOME/homeassistant/config" "$HOME/homeassistant/config/custom_components/hacs"
+
 
   # Start HomeAssistant container (remove newline character for clarity)
   docker run -d --name homeassistant --privileged --restart unless-stopped \
