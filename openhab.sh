@@ -66,9 +66,6 @@ while true; do
         -v /opt/openhab/userdata:/openhab/userdata \
         -v /opt/openhab/addons:/openhab/addons \
         -d \
-       # -e USER_ID=<uid> \
-       # -e GROUP_ID=<gid> \
-       # -e CRYPTO_POLICY=unlimited \
         --restart=always \
         openhab/openhab:latest
       
