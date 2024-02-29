@@ -25,10 +25,30 @@ function install_homeassistant() {
  # fi
 
   # Create HomeAssistant directories
-  mkdir -p "$HOME/homeassistant/config" "$HOME/homeassistant/config"
+  mkdir -p "$HOME/homeassistant/config"
 
-  # Create hacs directories
-  mkdir -p "$HOME/homeassistant/config" "$HOME/homeassistant/config/custom_components/hacs"
+  # 設定 Home Assistant 安裝目錄
+# home_dir=$HOME/homeassistant/config
+
+# 建立必要的目錄
+config_dir="$HOME/homeassistant/config"
+hacs_dir="$config_dir/custom_components/hacs"
+mkdir -p "$hacs_dir"
+
+# 下載 HACS zip 檔案
+hacs_zip_url="https://github.com/hacs/integration/releases/download/1.34.0/hacs.zip"
+hacs_zip_path="$hacs_dir/hacs.zip"
+echo "正在下載 HACS..."
+wget "$hacs_zip_url" -O "$hacs_zip_path"
+
+# 解壓縮 HACS zip 檔案
+echo "正在解壓縮 HACS..."
+unzip "$hacs_zip_path" -d "$hacs_dir"
+
+# 清理
+rm "$hacs_zip_path"
+
+echo "HACS 安裝成功！"
 
 
   # Start HomeAssistant container (remove newline character for clarity)
