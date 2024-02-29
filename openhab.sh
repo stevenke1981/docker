@@ -42,14 +42,37 @@ while true; do
 
       sudo mkdir -p /etc/openhab /var/lib/openhab /usr/share/openhab/addons
 
-      # 將 openHAB 用戶添加到 docker 組
+      # Create the openhab user
 
-      sudo usermod -aG docker openhab
+      sudo useradd -r -s /sbin/nologin openhab
+      sudo usermod -a -G openhab openhab
+
+      #Create the openHAB conf, userdata, and addon directories
+
+      sudo mkdir -p /opt/openhab/{conf,userdata,addons}
+      sudo chown -R openhab:openhab /opt/openhab
+      
 
       # 啟動 openHAB
 
-      sudo docker run -it --rm --name openhab -p 9080:8080 -v /etc/openhab:/etc/openhab:ro -v /var/lib/openhab:/var/lib/openhab:rw -v /usr/share/openhab/addons:/usr/share/openhab/addons:rw openhab/openhab:latest
+      #sudo docker run -it --rm --name openhab -p 9080:8080 -v /etc/openhab:/etc/openhab:ro -v /var/lib/openhab:/var/lib/openhab:rw -v /usr/share/openhab/addons:/usr/share/openhab/addons:rw openhab/openhab:latest
 
+      docker run \
+        --name openhab \
+        --net=host \
+        -v /etc/localtime:/etc/localtime:ro \
+        -v /etc/timezone:/etc/timezone:ro \
+        -v /opt/openhab/conf:/openhab/conf \
+        -v /opt/openhab/userdata:/openhab/userdata \
+        -v /opt/openhab/addons:/openhab/addons \
+        -d \
+        -e USER_ID=<uid> \
+        -e GROUP_ID=<gid> \
+        -e CRYPTO_POLICY=unlimited \
+        --restart=always \
+        openhab/openhab:latest
+      
+      
       echo "openHAB 已安裝完成。"
 
       break
