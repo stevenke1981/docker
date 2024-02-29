@@ -71,7 +71,7 @@ function configure_systemd_resolved() {
     echo "建立設定檔 /etc/systemd/resolved.conf.d/adguardhome.conf..."
     echo '[Resolve]
 DNS=127.0.0.1
-DNSStubListener=no' | sudo tee /etc/systemd/resolved.conf.d/adguardhome.conf
+DNSStubListener=no' | sudo touch /etc/systemd/resolved.conf.d/adguardhome.conf
   fi
   
   mv /etc/resolv.conf /etc/resolv.conf.backup
