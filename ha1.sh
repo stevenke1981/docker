@@ -12,10 +12,10 @@ HACS_INSTALL_DIR="$HASS_CONFIG_DIR/custom_components/hacs"
 # Function: Show the menu
 show_menu() {
   echo "----------------------------------------"
-  echo "HomeAssist Installation/Removal Script"
+  echo "HomeAssistant Installation/Removal Script"
   echo "----------------------------------------"
-  echo "1. Install HomeAssist"
-  echo "2. Remove HomeAssist"
+  echo "1. Install HomeAssistant"
+  echo "2. Remove HomeAssistant"
   echo "0. Exit"
   echo "----------------------------------------"
   echo -n "Enter your choice: "
@@ -33,8 +33,8 @@ check_docker() {
 }
 
 # Function: Install HomeAssistant
-install_homeassistant() {
-  echo "Installing HomeAssist..."
+install_HomeAssistant() {
+  echo "Installing HomeAssistant..."
 
   check_docker
 
@@ -53,19 +53,19 @@ install_homeassistant() {
 
   # Start HomeAssistant container
   echo "Starting Home Assistant..."
-  docker run -d --name homeassistant --restart unless-stopped \
-    -p 8123:8123/tcp -e TZ=Asia/Taipei -v "$HASS_CONFIG_DIR:/config" homeassistant/home-assistant:stable && echo "HomeAssist installed successfully." || { echo "Failed to start Home Assistant."; exit 1; }
+  docker run -d --name HomeAssistant --restart unless-stopped \
+    -p 8123:8123/tcp -e TZ=Asia/Taipei -v "$HASS_CONFIG_DIR:/config" HomeAssistant/home-assistant:stable && echo "HomeAssistant installed successfully." || { echo "Failed to start Home Assistant."; exit 1; }
 
-  echo "HomeAssist accessible at: http://$(hostname -I | awk '{print $1}'):8123"
+  echo "HomeAssistant accessible at: http://$(hostname -I | awk '{print $1}'):8123"
 }
 
 # Function: Remove HomeAssistant
-remove_homeassistant() {
-  echo "Removing HomeAssist..."
+remove_HomeAssistant() {
+  echo "Removing HomeAssistant..."
 
-  docker stop homeassistant && docker rm homeassistant && echo "Home Assistant container removed." || { echo "Failed to remove Home Assistant container."; }
+  docker stop HomeAssistant && docker rm HomeAssistant && echo "Home Assistant container removed." || { echo "Failed to remove Home Assistant container."; }
 
-  rm -rf "$HASS_CONFIG_DIR" && echo "HomeAssist removed successfully." || { echo "Failed to remove HomeAssist configuration."; }
+  rm -rf "$HASS_CONFIG_DIR" && echo "HomeAssistant removed successfully." || { echo "Failed to remove HomeAssistant configuration."; }
 }
 
 # Main program loop
@@ -75,10 +75,10 @@ while true; do
 
   case $choice in
     1)
-      install_homeassistant
+      install_HomeAssistant
       ;;
     2)
-      remove_homeassistant
+      remove_HomeAssistant
       ;;
     0)
       echo "Exiting."
