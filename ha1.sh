@@ -53,8 +53,8 @@ install_HomeAssistant() {
 
   # Start HomeAssistant container
   echo "Starting Home Assistant..."
-  docker run -d --name HomeAssistant --restart unless-stopped \
-    -p 8123:8123/tcp -e TZ=Asia/Taipei -v "$HASS_CONFIG_DIR:/config" HomeAssistant/home-assistant:stable && echo "HomeAssistant installed successfully." || { echo "Failed to start Home Assistant."; exit 1; }
+  docker run -d --name homeassistant --restart unless-stopped \
+    -p 8123:8123/tcp -e TZ=Asia/Taipei -v "$HASS_CONFIG_DIR:/config" homeassistant/home-assistant:stable && echo "HomeAssistant installed successfully." || { echo "Failed to start Home Assistant."; exit 1; }
 
   echo "HomeAssistant accessible at: http://$(hostname -I | awk '{print $1}'):8123"
 }
@@ -63,7 +63,7 @@ install_HomeAssistant() {
 remove_HomeAssistant() {
   echo "Removing HomeAssistant..."
 
-  docker stop HomeAssistant && docker rm HomeAssistant && echo "Home Assistant container removed." || { echo "Failed to remove Home Assistant container."; }
+  docker stop homeassistant && docker rm homeassistant && echo "Home Assistant container removed." || { echo "Failed to remove Home Assistant container."; }
 
   rm -rf "$HASS_CONFIG_DIR" && echo "HomeAssistant removed successfully." || { echo "Failed to remove HomeAssistant configuration."; }
 }
