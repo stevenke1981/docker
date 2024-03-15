@@ -1,9 +1,9 @@
-#version 1.0.2
+#version 1.0.3
 #!/bin/bash
 
 # 定義 Jellyfin 配置和媒體存儲目錄的路徑
-jellyfin_config="./jellyfin/config"
-jellyfin_media="./jellyfin/media"
+jellyfin_config="$HOME/jellyfin/config"
+jellyfin_media="$HOME/jellyfin/media"
 
 function start_jellyfin {
   # 創建配置和媒體存儲目錄
