@@ -10,14 +10,7 @@ mkdir -p $jellyfin_config
 mkdir -p $jellyfin_media
 
 # 運行 Jellyfin Docker 容器，使用先前定義的參數
-docker run -d \
-  --name jellyfin \                         # 容器名稱設為 jellyfin
-  --privileged \                            # 授予容器額外的權限
-  -p 8096:8096 \                            # 映射端口
-  --restart=unless-stopped \                # 定義重啟策略
-  --volume $jellyfin_config:/config \       # 掛載配置目錄
-  --volume /tmp:/cache \                    # 掛載緩存目錄
-  --volume $jellyfin_media:/media           # 掛載媒體存儲目錄
+docker run -d --name jellyfin --privileged -p 8096:8096 --restart=unless-stopped --volume $jellyfin_config:/config --volume /tmp:/cache --volume $jellyfin_media:/media
 
 # 檢查 Jellyfin 容器是否成功運行
 if docker ps | grep -q jellyfin; then
