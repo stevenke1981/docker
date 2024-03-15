@@ -1,4 +1,5 @@
-#version 1.0.0
+#version 1.0.1
+#!/bin/bash
 
 # 定義 Jellyfin 配置和媒體存儲目錄的路徑
 jellyfin_config="./jellyfin/config"
