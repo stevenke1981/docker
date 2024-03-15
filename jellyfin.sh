@@ -46,7 +46,7 @@ function remove_jellyfin {
 
 # 主選單
 echo "Jellyfin Docker 管理腳本"
-echo "1. 啟動 Jellyfin"
+echo "1. 安裝 Jellyfin"
 echo "2. 移除 Jellyfin"
 read -p "請選擇操作 (1-2): " action
 
