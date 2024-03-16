@@ -55,7 +55,8 @@ install_HomeAssistant() {
   # Start HomeAssistant container
   echo "Starting Home Assistant..."
   docker run -d --name homeassistant --restart unless-stopped \
-    -p 8123:8123/tcp -e TZ="$TIME_ZONE" -v "$HASS_CONFIG_DIR:/config" homeassistant/home-assistant:stable && echo "HomeAssistant installed successfully." || { echo "Failed to start Home Assistant."; exit 1; }
+    -p 8123:8123/tcp -e TZ="$TIME_ZONE" -v "$HASS_CONFIG_DIR:/config" \
+    -v /run/dbus:/run/dbus:ro homeassistant/home-assistant:stable && echo "HomeAssistant installed successfully." || { echo "Failed to start Home Assistant."; exit 1; }
 
   echo "HomeAssistant accessible at: http://$(hostname -I | awk '{print $1}'):8123"
 }
