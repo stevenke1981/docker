@@ -61,7 +61,8 @@ function remove_jellyfin {
 echo "Jellyfin Docker 管理腳本"
 echo "1. 安裝 Jellyfin"
 echo "2. 移除 Jellyfin"
-read -p "請選擇操作 (1-2): " action
+echo "3. 離開"
+read -p "請選擇操作 (1-3): " action
 
 case $action in
   1)
@@ -73,6 +74,9 @@ case $action in
     ;;
   2)
     remove_jellyfin
+    ;;
+  3)
+    exit 0
     ;;
   *)
     echo "無效的選擇，退出..."
