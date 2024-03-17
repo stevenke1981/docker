@@ -23,7 +23,10 @@ user1=steven
 user1pwd=co047787441
 
 mkdir $jellyfin_smb
+echo "$jellyfin_smb 建立成功"
+
 mount.cifs //$smb_server1_ip/ $jellyfin_smb -o username=$user1,password=$user1pwd
+echo "$jellyfin_smb 掛載成功"
 
 
 # 啟動 Jellyfin 容器
