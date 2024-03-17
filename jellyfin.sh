@@ -3,12 +3,12 @@
 
 if ! dpkg -s exfat-fuse &> /dev/null; then
     echo "exfat-fuse 未安裝，正在安裝..."
-    sudo apt install exfat-fuse -y
+    apt install exfat-fuse -y
 fi
 
 if ! dpkg -s cifs-utils &> /dev/null; then
     echo "cifs-utils 未安裝，正在安裝..."
-    sudo apt install cifs-utils -y
+    apt install cifs-utils -y
 fi
 
 
