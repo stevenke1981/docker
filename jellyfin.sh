@@ -1,36 +1,14 @@
 #version v1.2.0
 #!/bin/bash
 
-# 安裝 exfat-fuse 套件
-apt install exfat-fuse -y
+# 安裝 exfat-fuse cifs-utils 套件
+apt install exfat-fuse cifs-utils  -y
 
 # 定義 Jellyfin 配置和媒體存儲目錄的路徑
 jellyfin_config="$HOME/jellyfin/config"
 jellyfin_media="$HOME/jellyfin/media"
+jellyfin_smb="/mnt/smb"
 
-# 檢查硬碟是否存在
-if [ ! -b /dev/sda ] || [ ! -b /dev/sdb ] || [ ! -b /dev/sdc ] || [ ! -b /dev/sdd ]; then
-  echo "找不到外接硬碟。"
-  exit 1
-fi
-
-# 檢查硬碟是否已格式化
-if [ ! -f /dev/sda1 ] || [ ! -f /dev/sdb1 ] || [ ! -f /dev/sdc1 ] || [ ! -f /dev/sdd1 ]; then
-  echo "外接硬碟未格式化。"
-  exit 1
-fi
-
-# 檢查外接硬碟是否已連接
-count=0
-for disk in $disks; do
-  if [ "$disk" = "sda" ] || [ "$disk" = "sdb" ] || [ "$disk" = "sdc" ] || [ "$disk" = "sdd" ]; then
-    echo "外接硬碟 /dev/$disk 已連接。"
-    jellyfin_sd"i"="/dev/<span class="math-inline">disk/"
-count\=</span>((count + 1))
-  else
-    echo "外接硬碟 /dev/$disk 未連接。"
-  fi
-done
 
 # 啟動 Jellyfin 容器
 function start_jellyfin {
@@ -42,7 +20,8 @@ function start_jellyfin {
   docker run -d --name jellyfin --privileged -p 8096:8096 --restart=unless-stopped \
     --volume $jellyfin_config:/config --volume /tmp:/cache \
     --volume $jellyfin_media:/media \
-    "${jellyfin_sd[@]}" \
+    --volume $jellyfin_smb:/smb \
+   # "${jellyfin_sd[@]}" \
     nyanmisaka/jellyfin:latest-rockchip
 
   # 檢查 Jellyfin 容器是否成功運行
