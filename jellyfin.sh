@@ -15,10 +15,15 @@ fi
 # 定義 Jellyfin 配置和媒體存儲目錄的路徑
 jellyfin_config="$HOME/jellyfin/config"
 jellyfin_media="$HOME/jellyfin/media"
+
+#Create smb connect
 jellyfin_smb="/mnt/smb"
+smb_server1_ip="192.168.80.129/data2"
+user1=steven
+user1pwd=co047787441
 
 mkdir $jellyfin_smb
-mount.cifs //192.168.80.129/data2/ $jellyfin_smb -o username=steven,password=co047787441
+mount.cifs //$smb_server1_ip/ $jellyfin_smb -o username=$user1,password=$user1pwd
 
 
 # 啟動 Jellyfin 容器
