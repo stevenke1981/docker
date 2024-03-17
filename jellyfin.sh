@@ -10,6 +10,7 @@ apt install exfat-utils -y
 # 定義 Jellyfin 配置和媒體存儲目錄的路徑
 jellyfin_config="$HOME/jellyfin/config"
 jellyfin_media="$HOME/jellyfin/media"
+jellyfin_tvshows="/dev/sd0/tvshows"
 
 function start_jellyfin {
   # 創建配置和媒體存儲目錄
@@ -18,7 +19,10 @@ function start_jellyfin {
 
   # 運行 Jellyfin Docker 容器，使用先前定義的參數
   docker run -d --name jellyfin --privileged -p 8096:8096 --restart=unless-stopped \
-  --volume $jellyfin_config:/config --volume /tmp:/cache --volume $jellyfin_media:/media nyanmisaka/jellyfin:latest-rockchip
+  --volume $jellyfin_config:/config --volume /tmp:/cache \
+  --volume $jellyfin_media:/media \
+  --volume $jellyfin_tvshows:/tvshows \
+  nyanmisaka/jellyfin:latest-rockchip
 
   # 檢查 Jellyfin 容器是否成功運行
   if docker ps | grep -q jellyfin; then
