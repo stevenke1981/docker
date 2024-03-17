@@ -17,7 +17,8 @@ function start_jellyfin {
   mkdir -p $jellyfin_media
 
   # 運行 Jellyfin Docker 容器，使用先前定義的參數
-  docker run -d --name jellyfin --privileged -p 8096:8096 --restart=unless-stopped --volume $jellyfin_config:/config --volume /tmp:/cache --volume $jellyfin_media:/media nyanmisaka/jellyfin:latest-rockchip
+  docker run -d --name jellyfin --privileged -p 8096:8096 --restart=unless-stopped \
+  --volume $jellyfin_config:/config --volume /tmp:/cache --volume $jellyfin_media:/media nyanmisaka/jellyfin:latest-rockchip
 
   # 檢查 Jellyfin 容器是否成功運行
   if docker ps | grep -q jellyfin; then
