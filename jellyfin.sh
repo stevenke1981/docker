@@ -56,6 +56,9 @@ function remove_jellyfin {
   rm -rf $jellyfin_config
   rm -rf $jellyfin_media
 
+  #移除smb
+  umount $jellyfin_smb
+  
   echo "Jellyfin 容器已成功移除。"
 }
 
