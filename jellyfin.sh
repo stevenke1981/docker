@@ -84,12 +84,30 @@ read -p "請選擇操作 (1-2): " action
 case $action in
   1)
     #start_jellyfin
-    
 # 檢查外接硬碟是否存在
-if lsblk | grep -q /dev/sd0; then
-  echo "外接硬碟已連接。"
-  jellyfin_tvshows="/dev/sd0/tvshows"
-  start_jellyfin0
+
+count=0
+for i in $(seq 0 5); do
+  if lsblk | grep -q "/dev/sd$i"; then
+    echo "外接硬碟 /dev/sd$i 已連接。"
+    jellyfin_sd"i"="/dev/sd$i/"
+    count=$((count + 1))
+  else
+    echo "外接硬碟 /dev/sd$i 未連接。"
+  fi
+done
+
+# 運行 Jellyfin Docker 容器
+
+if [ $count -gt 0 ]; then
+  docker run -d --name jellyfin --privileged -p 8096:8096 --restart=unless-stopped \
+    --volume $jellyfin_config:/config --volume /tmp:/cache \
+    --volume $jellyfin_media:/media \
+    "${jellyfin_sd[@]}" \
+    nyanmisaka/jellyfin:latest-rockchip
+else
+  echo "沒有外接硬碟連接，無法啟動 Jellyfin。"
+fi
 else
   echo "外接硬碟未連接。"
   start_jellyfin1
