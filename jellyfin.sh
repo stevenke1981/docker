@@ -18,7 +18,7 @@ jellyfin_media="$HOME/jellyfin/media"
 jellyfin_smb="/mnt/smb"
 
 mkdir $jellyfin_smb
-mount.cifs //192.168.80.169/videos $jellyfin_smb -o username=steven,password=co047787441
+mount.cifs //192.168.80.129/videos $jellyfin_smb -o username=steven,password=co047787441
 
 
 # 啟動 Jellyfin 容器
