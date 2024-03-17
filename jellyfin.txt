@@ -1,0 +1,15 @@
+docker volume create \
+    --driver local \
+    --opt type=cifs \
+    --opt device=//192.168.80.129/data2 \
+    --opt o=username=steven,password=co047787441,vers=3.0 \
+    --name jellyfin_data
+
+	
+	
+docker run -d --name jellyfin --restart=unless-stopped \
+  -p 8096:8096 \
+  -v $HOME/jellyfin/config:/config \
+  -v jellyfin_data:/cache \
+  -v jellyfin_data:/media \
+  nyanmisaka/jellyfin:latest-rockchip
