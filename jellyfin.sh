@@ -2,10 +2,10 @@
 #!/bin/bash
 
 #安裝 exfat-fuse 套件
-apt install exfat-fuse
+apt install exfat-fuse -y
 
 #安裝 exfat-utils 套件
-apt install exfat-utils
+apt install exfat-utils -y
 
 # 定義 Jellyfin 配置和媒體存儲目錄的路徑
 jellyfin_config="$HOME/jellyfin/config"
