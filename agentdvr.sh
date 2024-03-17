@@ -1,3 +1,5 @@
+#ver1.0.0
+#for arm
 # create working directory structure
 mkdir ~/agentdvr/{config,media,commands} -p
 # set ownership on the working directories
@@ -9,4 +11,4 @@ docker run -d --name=agentdvr -p 8090:8090 -p 3478:3478/udp \
 -v ~/agentdvr/media/:/agent/Media/WebServerRoot/Media/ \
 -v ~/agentdvr/commands/:/agent/Commands/ \
 -e TZ=Asia/Taipei \
-doitandbedone/ispyagentdvr
+mekayelanik/ispyagentdvr
