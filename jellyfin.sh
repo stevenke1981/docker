@@ -1,8 +1,16 @@
 #version v1.2.0
 #!/bin/bash
 
-# 安裝 exfat-fuse cifs-utils 套件
-apt install exfat-fuse cifs-utils  -y
+if ! dpkg -s exfat-fuse &> /dev/null; then
+    echo "exfat-fuse 未安裝，正在安裝..."
+    sudo apt install exfat-fuse -y
+fi
+
+if ! dpkg -s cifs-utils &> /dev/null; then
+    echo "cifs-utils 未安裝，正在安裝..."
+    sudo apt install cifs-utils -y
+fi
+
 
 # 定義 Jellyfin 配置和媒體存儲目錄的路徑
 jellyfin_config="$HOME/jellyfin/config"
