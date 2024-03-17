@@ -66,11 +66,9 @@ read -p "請選擇操作 (1-3): " action
 
 case $action in
   1)
-    if [ $count -gt 0 ]; then
+   
       start_jellyfin
-    else
-      echo "沒有外接硬碟連接，無法啟動 Jellyfin。"
-    fi
+    
     ;;
   2)
     remove_jellyfin
