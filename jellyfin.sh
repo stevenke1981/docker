@@ -55,6 +55,7 @@ function remove_jellyfin {
   # 刪除配置和媒體存儲目錄
   rm -rf $jellyfin_config
   rm -rf $jellyfin_media
+  rm $HOME/jellyfin
 
   #移除smb
   umount $jellyfin_smb
