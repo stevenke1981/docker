@@ -32,7 +32,7 @@ function start_jellyfin {
     --volume $jellyfin_config:/config --volume /tmp:/cache \
     --volume $jellyfin_media:/media \
     --volume $jellyfin_smb:/smb \
-   # "${jellyfin_sd[@]}" \
+    --volume /mnt/sda1:/sda1 \
     nyanmisaka/jellyfin:latest-rockchip
 
   # 檢查 Jellyfin 容器是否成功運行
