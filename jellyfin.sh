@@ -10,13 +10,13 @@ jellyfin_media="$HOME/jellyfin/media"
 
 # 檢查外接硬碟是否存在
 count=0
-for i in $(seq 0 5); do
-  if lsblk | grep -q "/dev/sd$i"; then
-    echo "外接硬碟 /dev/sd$i 已連接。"
-    jellyfin_sd"i"="/dev/sd$i/"
+for i in $(seq 0 2); do
+  if lsblk | grep -q "/dev/sd${i}a"; then
+    echo "外接硬碟 /dev/sd${i}a 已連接。"
+    jellyfin_sd"i"="/dev/sd${i}a/"
     count=$((count + 1))
   else
-    echo "外接硬碟 /dev/sd$i 未連接。"
+    echo "外接硬碟 /dev/sd${i}a 未連接。"
   fi
 done
 
