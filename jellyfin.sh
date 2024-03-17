@@ -5,22 +5,11 @@
 apt install exfat-fuse -y
 
 #安裝 exfat-utils 套件
-apt install exfat-utils -y
+#apt install exfat-utils -y
 
 # 定義 Jellyfin 配置和媒體存儲目錄的路徑
 jellyfin_config="$HOME/jellyfin/config"
 jellyfin_media="$HOME/jellyfin/media"
-
-
-# 檢查外接硬碟是否存在
-if lsblk | grep -q /dev/sd0; then
-  echo "外接硬碟已連接。"
-  jellyfin_tvshows="/dev/sd0/tvshows"
-  start_jellyfin0
-else
-  echo "外接硬碟未連接。"
-  start_jellyfin1
-fi
 
 
 function start_jellyfin0 {
@@ -94,7 +83,17 @@ read -p "請選擇操作 (1-2): " action
 
 case $action in
   1)
-    start_jellyfin
+    #start_jellyfin
+    
+# 檢查外接硬碟是否存在
+if lsblk | grep -q /dev/sd0; then
+  echo "外接硬碟已連接。"
+  jellyfin_tvshows="/dev/sd0/tvshows"
+  start_jellyfin0
+else
+  echo "外接硬碟未連接。"
+  start_jellyfin1
+fi
     ;;
   2)
     remove_jellyfin
