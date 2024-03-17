@@ -8,13 +8,25 @@ apt install exfat-fuse -y
 jellyfin_config="$HOME/jellyfin/config"
 jellyfin_media="$HOME/jellyfin/media"
 
-# 檢查外接硬碟是否存在
+# 檢查硬碟是否存在
+if [ ! -b /dev/sda ] || [ ! -b /dev/sdb ] || [ ! -b /dev/sdc ] || [ ! -b /dev/sdd ]; then
+  echo "找不到外接硬碟。"
+  exit 1
+fi
+
+# 檢查硬碟是否已格式化
+if [ ! -f /dev/sda1 ] || [ ! -f /dev/sdb1 ] || [ ! -f /dev/sdc1 ] || [ ! -f /dev/sdd1 ]; then
+  echo "外接硬碟未格式化。"
+  exit 1
+fi
+
+# 檢查外接硬碟是否已連接
 count=0
 for disk in $disks; do
   if [ "$disk" = "sda" ] || [ "$disk" = "sdb" ] || [ "$disk" = "sdc" ] || [ "$disk" = "sdd" ]; then
     echo "外接硬碟 /dev/$disk 已連接。"
-    jellyfin_sd"i"="/dev/$disk/"
-    count=$((count + 1))
+    jellyfin_sd"i"="/dev/<span class="math-inline">disk/"
+count\=</span>((count + 1))
   else
     echo "外接硬碟 /dev/$disk 未連接。"
   fi
