@@ -5,11 +5,17 @@ docker volume create \
     --opt o=username=steven,password=co047787441,vers=3.0 \
     --name jellyfin_data
 
-	
-	
-docker run -d --name jellyfin --restart=unless-stopped \
-  -p 8096:8096 \
-  -v $HOME/jellyfin/config:/config \
-  -v jellyfin_data:/cache \
+docker run -d \
+--name jellyfinny \
+--privileged \
+-p 8096:8096 \
+--restart=unless-stopped \
+--volume $HOME/jellyfin/config:/config \
+-v jellyfin_data:/cache \
   -v jellyfin_data:/media \
-  nyanmisaka/jellyfin:latest-rockchip
+`for dev in dri dma_heap mali0 rga mpp_service \
+    iep mpp-service vpu_service vpu-service \
+    hevc_service hevc-service rkvdec rkvenc vepu h265e ; do \
+   [ -e "/dev/$dev" ] && echo " --device /dev/$dev"; \
+  done` \
+nyanmisaka/jellyfin:latest-rockchip
