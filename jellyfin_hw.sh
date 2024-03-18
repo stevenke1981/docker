@@ -12,3 +12,5 @@ docker run -d \
    [ -e "/dev/$dev" ] && echo " --device /dev/$dev"; \
   done` \
 nyanmisaka/jellyfin:latest-rockchip
+
+#jjm2473/jellyfin-mpp:latest
