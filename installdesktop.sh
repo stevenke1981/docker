@@ -9,3 +9,6 @@ sudo apt install ubuntu-desktop -y
 
 #重新啟動
 sudo reboot
+
+#XFCE包
+#sudo apt-get install xfce4-session xfce4-goodies
