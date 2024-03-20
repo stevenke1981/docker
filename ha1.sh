@@ -46,6 +46,9 @@ install_HomeAssistant() {
   echo "Downloading HACS..."
   wget -q "$HACS_DOWNLOAD_URL" -O "$HACS_INSTALL_DIR/hacs.zip" && echo "HACS downloaded successfully." || { echo "Failed to download HACS."; exit 1; }
 
+  echo "Install unziop"
+  sudo apt install unzip -y
+  
   echo "Extracting HACS..."
   unzip -q "$HACS_INSTALL_DIR/hacs.zip" -d "$HACS_INSTALL_DIR" && echo "HACS extracted successfully." || { echo "Failed to extract HACS."; exit 1; }
 
