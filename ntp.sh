@@ -4,7 +4,7 @@
 #!/bin/bash
 
 # 安裝 ntpd
-sudo apt-get install ntp
+sudo apt-get install ntp -y
 
 # 編輯 ntp.conf 文件
 sudo vi /etc/ntp.conf
