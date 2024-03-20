@@ -1,13 +1,13 @@
-#更新
+# Update
 sudo apt update && sudo apt upgrade
 
-#安裝並設定顯示管理器
+# Install and configure the display manager
 sudo apt install slim -y
 
-#Ubuntu 桌面
+# Ubuntu desktop
 sudo apt install ubuntu-desktop -y
 
-#重新啟動
+# Restart
 sudo reboot
 
 #XFCE包
