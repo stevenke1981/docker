@@ -5,7 +5,7 @@
 cpu_model=$(cat /proc/cpuinfo | grep "model name" | awk '{print $4}')
 pool=randomxmonero.auto.nicehash.com:9200
 mywallet=38m2mrVGunLYreKxZq4t3hKufuaU97mDHK
-workname=x9903
+workname=x9906
 
 # 根據 CPU 型號選擇
 
