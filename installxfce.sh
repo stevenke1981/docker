@@ -13,11 +13,11 @@ sudo apt install lightdm -y
 sudo dpkg-reconfigure lightdm
 
 # 安裝VNC服務器(如果需要遠程訪問桌面)
-sudo apt install tightvncserver -y  
+#sudo apt install tightvncserver -y  
 
 # 設置VNC服務器密碼(如果安裝了VNC)
-echo "設置VNC服務器密碼:"
-vncserver
+#echo "設置VNC服務器密碼:"
+#vncserver
 
 # 設置Xfce為默認桌面環境
 sudo echo "xfce4-session" > /home/$USER/.xsession
