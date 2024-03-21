@@ -8,6 +8,7 @@ sudo apt install slim -y
 
 # Ubuntu desktop
 sudo apt install ubuntu-desktop -y
+#sudo apt installl xfce -y
 
 # Restart
 sudo reboot
