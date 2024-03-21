@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Update
-sudo apt update && sudo apt upgrade
+sudo apt update && sudo apt upgrade -y
 
 # Install and configure the display manager, another lightdm
 sudo apt install slim -y
