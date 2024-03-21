@@ -1,10 +1,23 @@
 #!/bin/bash
 
-# 切換到目前目錄
-cd "$(dirname "$0")"
+# 獲取 CPU 型號
 
-# 執行 x
-./xmrig -a rx/0 -o randomxmonero.auto.nicehash.com:9200 -u 38m2mrVGunLYreKxZq4t3hKufuaU97mDHK.x9903 -p x --nicehash --asm=ryzen --donate-level=1 --intensity 90
+cpu_model=$(cat /proc/cpuinfo | grep "model name" | awk '{print $4}')
+mywallet=38m2mrVGunLYreKxZq4t3hKufuaU97mDHK
+workname=x9903
+
+# 根據 CPU 型號選擇
+
+if [[ $cpu_model =~ "AMD" ]]; then
+  sudo ./xmrig -a rx/0 -o randomxmonero.auto.nicehash.com:9200 -u $mywallet.$workname -p x --nicehash --asm=ryzen --donate-level=1
+  echo "使用AMD CPU開始計算"
+elif [[ $cpu_model =~ "Intel" ]]; then
+  sudo ./xmrig -a rx/0 -o randomxmonero.auto.nicehash.com:9200 -u $mywallet.$workname -p x --nicehash --donate-level=1
+  echo "使用Intel CPU開始計算"
+else
+  echo "無法識別 CPU 型號，請手動指定"
+  exit 1
+fi
 
 # 暫停
 read -p "按 Enter 鍵繼續..."
