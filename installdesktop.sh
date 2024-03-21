@@ -3,15 +3,23 @@
 # Update
 sudo apt update && sudo apt upgrade -y
 
-# Install and configure the display manager, another lightdm, gdm3,kdm, sddm
-sudo apt install slim -y
+# Install and configure the display manager  
+sudo apt install gdm3 -y
 
 # Ubuntu desktop
-sudo apt install ubuntu-desktop -y
-#sudo apt installl xfce -y
+sudo apt install ubuntu-desktop -y  
 
-# Restart
+# Install xrdp
+sudo apt install xrdp xorgxrdp -y
+
+# Configure xrdp to use GNOME (Ubuntu desktop)
+# 这一行被注释掉了,因为使用gdm3作为显示管理器,xrdp会自动使用GNOME桌面环境
+
+# Restart xrdp service
+sudo systemctl restart xrdp
+
+# Enable xrdp service  
+sudo systemctl enable xrdp
+
+# Restart system
 sudo reboot
-
-#XFCE包
-#sudo apt-get install xfce4-session xfce4-goodies
