@@ -3,7 +3,7 @@
 # Update
 sudo apt update && sudo apt upgrade -y
 
-# Install and configure the display manager, another lightdm, gdm3,kdm
+# Install and configure the display manager, another lightdm, gdm3,kdm, sddm
 sudo apt install slim -y
 
 # Ubuntu desktop
