@@ -13,7 +13,7 @@ if [[ $cpu_model =~ "AMD" ]]; then
   sudo ./xmrig -a rx/0 -o $pool -u $mywallet.$workname -p x --nicehash --asm=ryzen --donate-level=1
   echo "使用AMD CPU開始計算"
 elif [[ $cpu_model =~ "Intel" ]]; then
-  sudo ./xmrig -a rx/0 -o $pool -u $mywallet.$workname -p x --nicehash --donate-level=1
+  sudo ./xmrig --huge-pages -a rx/0 -o $pool -u $mywallet.$workname -p x --nicehash --donate-level=1
   echo "使用Intel CPU開始計算"
 else
   echo "無法識別 CPU 型號，請手動指定"
