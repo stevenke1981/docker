@@ -2,6 +2,16 @@
 sudo systemctl enable mosquitto
 sudo systemctl start mosquitto
 
+#檢查 mosquitto 是否有監聽外部連接。編輯設定檔:
+
+sudo nano /etc/mosquitto/mosquitto.conf
+
+#加入以下設定允許外部連接:
+listener 1883
+allow_anonymous true
+
+
+#=================================================
 
 
 #假如我們要建立一個帳號 叫做qquser的話，可以用下面這指令
