@@ -1,0 +1,15 @@
+version: '3.9'
+services:
+  frigate:
+    container_name: frigate
+    image: blakeblackshear/frigate:stable
+    privileged: true
+    restart: unless-stopped
+    shm_size: '2g'  # 記憶體分配大小，適當調整
+    volumes:
+      - /etc/frigate/config.yml:/config/config.yml
+      - /media/frigate/clips:/media/frigate/clips  # 保存錄像
+      - /dev/bus/usb:/dev/bus/usb  # 如果使用 USB TPU 加速器
+    ports:
+      - "5000:5000"  # API 端口
+      - "1935:1935"  # RTMP 端口
