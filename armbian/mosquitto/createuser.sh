@@ -1,3 +1,9 @@
+#開機啟動mosquitto
+sudo systemctl enable mosquitto
+sudo systemctl start mosquitto
+
+
+
 #假如我們要建立一個帳號 叫做qquser的話，可以用下面這指令
 
 # 建立 myuser 帳號與密碼，儲存於 /etc/mosquitto/passwd
