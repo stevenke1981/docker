@@ -1,3 +1,8 @@
+0. #create the dictionary and fonfig file
+sudo mkdir /home/frigate
+sudo nano /home/frigate/config.yml
+
+
 1.#go to the dictionary
 cd /home/frigate
   
