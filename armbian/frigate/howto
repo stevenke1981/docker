@@ -1,0 +1,11 @@
+1.#go to the dictionary
+cd /home/frigate
+  
+2.#write something
+sudo nano docker-compose.yml
+
+3.#run frigate
+cd /home/frigate
+sudo docker-compose up -d
+
+
