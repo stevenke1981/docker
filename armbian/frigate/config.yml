@@ -1,0 +1,16 @@
+mqtt:
+  host: 192.168.x.x  # MQTT 伺服器 IP
+  user: your_mqtt_username
+  password: your_mqtt_password
+
+cameras:
+  front_door:
+    ffmpeg:
+      inputs:
+        - path: rtsp://username:password@camera_ip:554/stream
+          roles:
+            - detect
+            - rtmp
+    width: 1280
+    height: 720
+    fps: 5
