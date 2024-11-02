@@ -1,17 +1,23 @@
-0. #create the dictionary and fonfig file
+0. #you need a mqtt server
+sudo apt update
+sudo apt install -y mosquitto mosquitto-clients
+sudo systemctl enable mosquitto
+sudo systemctl start mosquitto
+
+
+1. #create the dictionary and fonfig file
 sudo mkdir /home/frigate
 sudo nano /home/frigate/config.yml
 
-
-1.#go to the dictionary
+2.#go to the dictionary
 cd /home/frigate
   
-2.#write something
+3.#write something
 sudo nano docker-compose.yml
 
-3.#run frigate
+4.#run frigate
 cd /home/frigate
 sudo docker-compose up -d
 
-4. #restart, if needed
+5. #restart, if needed
 sudo docker-compose restart
