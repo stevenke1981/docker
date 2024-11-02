@@ -8,4 +8,5 @@ sudo nano docker-compose.yml
 cd /home/frigate
 sudo docker-compose up -d
 
-
+4. #restart, if needed
+sudo docker-compose restart
