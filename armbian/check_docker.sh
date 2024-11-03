@@ -37,6 +37,10 @@ install_docker() {
   sudo usermod -aG docker $USER
 
   # 安裝完成提示
+sudo systemctl start docker
+sudo systemctl enable docker
+docker --version
+
   echo "Docker 已成功安裝。請重新啟動系統以應用變更。"
 }
 
