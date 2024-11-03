@@ -10,23 +10,24 @@ check_docker() {
   fi
 }
 
-# 安裝 Docker
+# 使用官方腳本安裝 Docker，並手動設置倉庫
 install_docker() {
-  echo "開始安裝 Docker..."
+  echo "開始使用官方腳本安裝 Docker..."
 
-  # 更新系統套件並安裝必要套件
-  sudo apt-get update
-  sudo apt-get install -y ca-certificates curl
+  # 移除已存在的 Docker 軟件倉庫設定
+  sudo rm -f /etc/apt/sources.list.d/docker.list
+  sudo rm -f /etc/apt/keyrings/docker.asc
 
-  # 設置 Docker 倉庫 GPG 金鑰並添加 Docker 軟件源
-  sudo install -m 0755 -d /etc/apt/keyrings
+  # 手動設置 Docker 軟件倉庫為 bullseye（支援的發行版本）
+  sudo mkdir -p /etc/apt/keyrings
   curl -fsSL https://download.docker.com/linux/debian/gpg | sudo tee /etc/apt/keyrings/docker.asc >/dev/null
-  sudo chmod a+r /etc/apt/keyrings/docker.asc
-  echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian bullseye stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-  # 更新軟件包數據庫並安裝 Docker 組件
+  # 更新系統套件列表
   sudo apt-get update
-  sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+  # 安裝 Docker 組件
+  sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 
   # 啟用並啟動 Docker 服務
   sudo systemctl enable --now docker
@@ -47,7 +48,7 @@ remove_docker() {
   sudo systemctl stop docker docker.socket
 
   # 移除 Docker 套件
-  sudo apt-get purge -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
+  sudo apt-get purge -y docker-ce docker-ce-cli containerd.io
 
   # 刪除 Docker 資料和配置
   sudo rm -rf /var/lib/docker /var/lib/containerd /etc/docker
@@ -89,3 +90,4 @@ main_menu() {
 
 # 執行主選單
 main_menu
+
