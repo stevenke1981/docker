@@ -481,7 +481,7 @@ main_menu() {
 }
 
 # 確保腳本以 root 權限執行
-check_root
+#check_root
 
 # 啟動主菜單
 main_menu
