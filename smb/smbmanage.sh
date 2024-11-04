@@ -50,7 +50,7 @@ remove_docker() {
 # 補充移除 Web+SMB 的函數
 remove_web_smb() {
     show_status "移除 Web+SMB 服務..."
-    rm -rf /home/docker/web-smb
+    rm -rf ~/dockerdata/web-smb
     check_status
 }
 
