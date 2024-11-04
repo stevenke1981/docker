@@ -365,8 +365,8 @@ EOF
     writable = yes
     guest ok = yes
     public = yes
-    force user = root
-    force group = root
+    force user = nobody   #force user = root
+    force group = nogroup    #force group = root
     create mask = 0777
     directory mask = 0777
 EOF
