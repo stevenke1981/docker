@@ -188,7 +188,8 @@ manage_docker_system() {
         
         case $choice in
             1)
-                docker ps -aread -p "按 Enter 鍵繼續..."  # 暫停
+                docker ps -a
+                read -p "按 Enter 鍵繼續..."  # 暫停
                 
                 ;;
             2)
