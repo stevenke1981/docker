@@ -83,7 +83,7 @@ install_docker_compose() {
 
 # 創建 Web+SMB 服務
 setup_web_smb() {
-    local INSTALL_DIR="/opt/docker/web-smb"
+    local INSTALL_DIR="/home/docker/web-smb"
     show_status "創建安裝目錄..."
     mkdir -p $INSTALL_DIR
     
