@@ -204,12 +204,13 @@ services:
       - WSDD2_ENABLE=1
       - WSDD2_NETBIOS_NAME=MySambaServer
       # 共享設定
+      - SAMBA_USERS=admin:password
       - SHARE1_NAME=website
       - SHARE1_PATH=/mount/data
       - SHARE1_BROWSEABLE=yes
       - SHARE1_READONLY=no
-      - SHARE1_GUEST_OK=no
-      - SHARE1_VALID_USERS=@sambashare
+      - SHARE1_GUEST_OK=no            # 改為 no，禁用訪客訪問
+      - SHARE1_VALID_USERS=admin      # 改為實際的用戶名
       - SHARE1_ADMIN_USERS=admin
       - SHARE1_CREATE_MASK=0660
       - SHARE1_DIRECTORY_MASK=0770
