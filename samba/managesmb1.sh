@@ -1,5 +1,6 @@
 #本腳本僅適用在armbian bookworm
 #!/bin/bash
+source stopwebserver.sh
 
 # 顏色定義
 RED='\033[0;31m'
