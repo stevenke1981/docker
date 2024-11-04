@@ -138,15 +138,15 @@ start_docker() {
 install_docker_compose() {
     show_status "開始安裝 Docker Compose..."
     
-    apt-get update
-    apt-get install -y curl
+    sudo apt-get update
+    sudo apt-get install -y curl
     
-    curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
     check_status
     
     show_status "設置執行權限..."
-    chmod +x /usr/local/bin/docker-compose
-    ln -sf /usr/local/bin/docker-compose /usr/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+    sudo ln -sf /usr/local/bin/docker-compose /usr/bin/docker-compose
     check_status
 }
 
