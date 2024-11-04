@@ -450,7 +450,10 @@ main_menu() {
                 fi
                 ;;
             3)
-                setup_web_smb
+                if setup_web_smb()
+                cd $docker_dir
+                docker-compose up -d
+                if
                 read -p "按 Enter 鍵繼續..."
                 ;;
             4)
