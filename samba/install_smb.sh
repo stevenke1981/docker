@@ -15,7 +15,9 @@ function show_menu() {
     echo -e "${YELLOW}1) 安裝 Docker${NC}"
     echo -e "${YELLOW}2) 創建 Samba 環境${NC}"
     echo -e "${YELLOW}3) 啟動 Samba 伺服器${NC}"
-    echo -e "${YELLOW}4) 退出${NC}"
+    echo -e "${YELLOW}4) 停止 Samba 伺服器${NC}"
+    echo -e "${YELLOW}5) 移除 Samba 伺服器${NC}"
+    echo -e "${YELLOW}6) 退出${NC}"
     echo -e "${BLUE}==============================${NC}"
 }
 
@@ -78,6 +80,29 @@ function start_samba_server() {
     echo -e "${GREEN}Samba 伺服器已啟動！${NC}"
 }
 
+# 停止 Samba 伺服器
+function stop_samba_server() {
+    echo -e "${GREEN}正在停止 Samba 伺服器...${NC}"
+    cd smbserver
+    docker-compose down
+    echo -e "${GREEN}Samba 伺服器已停止！${NC}"
+}
+
+# 移除 Samba 伺服器
+function remove_samba_server() {
+    if [ -d "smbserver" ]; then
+        echo -e "${GREEN}正在移除 Samba 伺服器...${NC}"
+        cd smbserver
+        docker-compose down
+        sudo rm -rf data
+        sudo rm -f compose.yml
+        sudo rm -f data/config.yml
+        echo -e "${GREEN}Samba 伺服器已移除！${NC}"
+    else
+        echo -e "${RED}smbserver 目錄不存在，無法移除！${NC}"
+    fi
+}
+
 # 主循環
 while true; do
     show_menu
@@ -93,6 +118,12 @@ while true; do
             start_samba_server
             ;;
         4)
+            stop_samba_server
+            ;;
+        5)
+            remove_samba_server
+            ;;
+        6)
             echo -e "${GREEN}退出安裝腳本...${NC}"
             exit 0
             ;;
