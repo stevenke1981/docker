@@ -170,9 +170,11 @@ manage_docker_system() {
         echo "4. 清理未使用的映像"
         echo "5. 清理整個系統"
         echo "6. 啟動 Docker 服務"
-        echo "7. 停止 Docker 服務"
-        echo "8. 返回主選單"
-        echo "==================================="
+        echo "7. 移除 Web+SMB 服務"
+    echo "8. 移除 Docker Compose"
+    echo "9. 移除 Docker (完全清理)"
+    echo "10. 退出"
+    echo "==================================="
         
         read -p "請選擇操作 [1-8]: " choice
         
@@ -196,14 +198,42 @@ manage_docker_system() {
                 start_docker
                 ;;
             7)
-                stop_docker
-                ;;
-            8)
-                return 0
-                ;;
-            *)
-                echo -e "${RED}無效的選擇！${NC}"
-                ;;
+        if [ -d "/home/docker/web-smb" ]; then
+            read -p "確定要移除 Web+SMB 服務嗎？(y/n) " confirm
+            if [ "$confirm" = "y" ]; then
+                remove_web_smb
+            fi
+        else
+            echo -e "${YELLOW}Web+SMB 服務未安裝${NC}"
+        fi
+        ;;
+    8)
+        if check_docker_compose; then
+            read -p "確定要移除 Docker Compose 嗎？(y/n) " confirm
+            if [ "$confirm" = "y" ]; then
+                remove_docker_compose
+            fi
+        else
+            echo -e "${YELLOW}Docker Compose 未安裝${NC}"
+        fi
+        ;;
+    9)
+        if check_docker; then
+            read -p "確定要完全移除 Docker 嗎？這將清除所有容器和數據！(y/n) " confirm
+            if [ "$confirm" = "y" ]; then
+                read -p "再次確認，這個操作無法恢復！(y/n) " confirm2
+                if [ "$confirm2" = "y" ]; then
+                    remove_docker
+                fi
+            fi
+        else
+            echo -e "${YELLOW}Docker 未安裝${NC}"
+        fi
+        ;;
+    10)
+        echo "感謝使用！"
+        exit 0
+        ;;
         esac
         read -p "按 Enter 鍵繼續..."
     done
