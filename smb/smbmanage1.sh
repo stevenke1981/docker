@@ -255,6 +255,21 @@ echo "docker-compose up -d"
 echo ""
 echo "注意：請記得修改 docker-compose.yml 中的默認密碼！"
 echo "當前設置的 SMB 用戶名為 'admin'，密碼為 'password'"
+    # 自動啟動服務
+    show_status "啟動 Web+SMB 服務..."
+    cd "$INSTALL_DIR" || exit
+    if docker-compose up -d; then
+        echo -e "${GREEN}服務啟動成功！${NC}"
+        echo "Web 界面: http://$(hostname -I | awk '{print $1}')"
+        echo "SMB 共享: \\\\$(hostname -I | awk '{print $1}')\\website"
+        echo ""
+        echo -e "${YELLOW}注意：請記得修改 docker-compose.yml 中的默認密碼！${NC}"
+        echo "當前設置的 SMB 用戶名為 'admin'，密碼為 'password'"
+    else
+        echo -e "${RED}服務啟動失敗！${NC}"
+        echo "請檢查錯誤信息並重試。"
+        exit 1
+    fi
 }
 
 # 管理 Web+SMB 服務
