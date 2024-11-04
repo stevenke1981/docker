@@ -1,0 +1,23 @@
+name: samba
+
+services:
+  samba:
+    image: crazymax/samba
+    container_name: samba
+    hostname: docker_samba
+    network_mode: host
+    cap_add:
+      - CAP_NET_ADMIN
+      - CAP_NET_RAW
+    volumes:
+      - "./data:/data"
+      - "./public:/samba/public"
+      - "./share:/samba/share"
+      - "./foo:/samba/foo"
+      - "./foo-baz:/samba/foo-baz"
+    environment:
+      - "TZ=Europe/Paris"
+      - "SAMBA_LOG_LEVEL=0"
+      - "WSDD2_ENABLE=1"
+      - "WSDD2_NETBIOS_NAME=docker_samba"
+    restart: always
