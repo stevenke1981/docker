@@ -54,6 +54,8 @@ services:
       - TZ=Asia/Taipei
       - SAMBA_WORKGROUP=WORKGROUP
       - SAMBA_SERVER_STRING=Samba Server
+      - WSDD2_ENABLE=1
+      - WSDD2_HOSTNAME=armbian
       # 用戶設定
       - SAMBA_USERS=admin:password;steven:047761816
       # 安全性設定
