@@ -321,7 +321,7 @@ main_menu() {
                 fi
                 ;;
             3)
-                install_web_smb
+                setup_web_smb
                 read -p "按 Enter 鍵繼續..."
                 ;;
             4)
