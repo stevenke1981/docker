@@ -199,9 +199,11 @@ main() {
             4)
                 if ! check_docker; then
                     install_docker
+                     read -p "按 Enter 鍵繼續..."
                 fi
                 if ! check_docker_compose; then
-                    install_docker_compose
+                    install_docker_compose 
+                    read -p "按 Enter 鍵繼續..."                    
                 fi
                 setup_web_smb
                 read -p "按 Enter 鍵繼續..."
