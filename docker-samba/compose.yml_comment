@@ -1,0 +1,23 @@
+name: samba  # 定義這個 Docker Compose 的名稱
+
+services:  # 定義服務部分
+  samba:  # 服務名稱
+    image: crazymax/samba  # 使用的 Docker 映像
+    container_name: samba  # 容器的名稱
+    hostname: docker_samba  # 設定容器內部的主機名稱
+    network_mode: host  # 使用主機的網路模式，讓容器直接使用主機的網路堆疊
+    cap_add:  # 增加特權
+      - CAP_NET_ADMIN  # 允許容器進行網路管理
+      - CAP_NET_RAW  # 允許容器使用原始套接字
+    volumes:  # 定義卷以掛載主機上的目錄到容器中
+      - "./data:/data"  # 將主機的 ./data 目錄掛載到容器的 /data 目錄
+      - "./public:/samba/public"  # 將主機的 ./public 目錄掛載到容器的 /samba/public 目錄
+      - "./share:/samba/share"  # 將主機的 ./share 目錄掛載到容器的 /samba/share 目錄
+      - "./foo:/samba/foo"  # 將主機的 ./foo 目錄掛載到容器的 /samba/foo 目錄
+      - "./foo-baz:/samba/foo-baz"  # 將主機的 ./foo-baz 目錄掛載到容器的 /samba/foo-baz 目錄
+    environment:  # 定義環境變數
+      - "TZ=Europe/Paris"  # 設定容器的時區為歐洲/巴黎
+      - "SAMBA_LOG_LEVEL=0"  # 設定 Samba 的日誌級別（0表示不記錄日誌）
+      - "WSDD2_ENABLE=1"  # 啟用 WSDD2 (Web Services on Devices Discovery)
+      - "WSDD2_NETBIOS_NAME=docker_samba"  # 設定 WSDD2 的 NETBIOS 名稱
+    restart: always  # 確保容器總是重啟（無論其狀態如何）
