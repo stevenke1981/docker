@@ -30,6 +30,30 @@ check_status() {
     fi
 }
 
+# 補充移除 Docker Compose 的函數
+remove_docker_compose() {
+    show_status "移除 Docker Compose..."
+    rm -f /usr/local/bin/docker-compose
+    check_status
+}
+
+# 補充移除 Docker 的函數
+remove_docker() {
+    show_status "移除 Docker..."
+    apt-get remove --purge -y docker docker-engine docker.io containerd runc
+    apt-get autoremove -y
+    apt-get autoclean
+    rm -rf /var/lib/docker
+    check_status
+}
+
+# 補充移除 Web+SMB 的函數
+remove_web_smb() {
+    show_status "移除 Web+SMB 服務..."
+    rm -rf /home/docker/web-smb
+    check_status
+}
+
 # 檢查 Docker 是否已安裝
 check_docker() {
     if command -v docker &> /dev/null; then
