@@ -128,6 +128,126 @@ install_docker_compose() {
     check_status
 }
 
+# 設置 Web+SMB 服務
+setup_web_smb() {
+    local INSTALL_DIR=$docker_dir
+    show_status "創建安裝目錄..."
+    mkdir -p $INSTALL_DIR
+
+    # 更新的 Docker Compose 配置
+    cat > $INSTALL_DIR/docker-compose.yml << 'EOF'
+version: '3'
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: web_server
+    ports:
+      - "80:80"
+    volumes:
+      - website_data:/usr/share/nginx/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - samba
+    restart: unless-stopped
+
+  samba:
+    image: dperson/samba
+    container_name: smb_server
+    ports:
+      - "139:139"
+      - "445:445"
+    environment:
+      - TZ=Asia/Taipei
+      - USERID=1000
+      - GROUPID=1000
+      - PERMISSIONS=0770
+      - RECYCLE=true
+      - FULL_AUDIT=true
+      # SMB 版本控制
+      - SMB="min protocol = SMB2\nmax protocol = SMB3"
+    volumes:
+      - website_data:/share
+    command: >
+   -u "admin;password"
+   -s "website;/share;yes;no;no;admin;admin;admin;Website Share"
+   -p
+   -n
+   -r
+   -w "WORKGROUP"
+   -g "client min protocol = SMB2;client max protocol = SMB3"
+    restart: unless-stopped
+
+volumes:
+  website_data:
+EOF
+
+    chmod -R 777 $INSTALL_DIR
+    chown -R $SUDO_USER:$SUDO_USER $INSTALL_DIR
+
+    show_status "服務文件已創建在 $INSTALL_DIR"
+    
+    cd $INSTALL_DIR
+    
+    # 創建測試頁面
+    mkdir -p $INSTALL_DIR/html
+    cat > $INSTALL_DIR/html/index.html << 'EOF'
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Web+SMB Test Page</title>
+</head>
+<body>
+    <h1>Welcome to Web+SMB Server</h1>
+    <p>If you can see this page, your web server is working correctly.</p>
+</body>
+</html>
+EOF
+
+    # Nginx 配置
+     cat > $INSTALL_DIR/nginx.conf << 'EOF'
+server {
+    listen 80;
+    server_name localhost;
+    
+    # 修改根目錄配置
+    root /usr/share/nginx/html;
+    index index.html index.htm;
+    
+    # 增加網站根目錄訪問配置
+    location / {
+        try_files $uri $uri/ =404;
+        autoindex on;
+    }
+
+    # 增加 /website 路徑配置
+    location /website {
+        alias /usr/share/nginx/html;
+        autoindex on;
+        try_files $uri $uri/ =404;
+    }
+}
+EOF
+
+    chmod -R 777 $INSTALL_DIR
+    chown -R $SUDO_USER:$SUDO_USER $INSTALL_DIR
+
+    show_status "服務文件已創建在 $INSTALL_DIR"
+    
+    cd $INSTALL_DIR
+    docker-compose up -d
+
+    LOCAL_IP=$(hostname -I | awk '{print $1}')
+    echo -e "${GREEN}服務已啟動！${NC}"
+    echo -e "網頁訪問：http://$LOCAL_IP"
+    echo -e "SMB 網路芳鄰訪問："
+    echo -e "  Windows 檔案總管輸入：\\\\$LOCAL_IP\\website"
+    echo -e "  Windows 登入資訊："
+    echo -e "    用戶名：admin"
+    echo -e "    密碼：password"
+    echo -e "  或在網路芳鄰中尋找 'Samba Server'"
+}
+
+
 # 管理 Web+SMB 服務
 manage_web_smb() {
     local INSTALL_DIR="$docker_dir"
