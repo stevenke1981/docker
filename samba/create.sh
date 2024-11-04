@@ -53,7 +53,7 @@ cat > "$dockerdata_dir/config/smb.conf" <<EOF
 EOF
 
 # 創建啟動腳本
-cat > "$dockerdata_dirstart-samba.sh" <<EOF
+cat > "$dockerdata_dir/start-samba.sh" <<EOF
 #!/bin/bash
 cd "$dockerdata_dir/samba"
 docker-compose up -d
