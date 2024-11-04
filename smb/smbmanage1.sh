@@ -1,3 +1,4 @@
+#本腳本僅適用在armbian bookworm
 #!/bin/bash
 
 # 顏色定義
@@ -8,6 +9,10 @@ NC='\033[0m' # No Color
 
 # 定義安裝位置
 docker_dir="$HOME/dockerdata/web-smb"
+
+# 定義使用者
+SUDO_USER="steven"
+
 
 # 自動創建目錄的函式
 create_directory_if_not_exists() {
