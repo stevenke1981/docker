@@ -98,7 +98,7 @@ install_docker() {
     check_status
     
     show_status "將當前用戶添加到 docker 群組..."
-    usermod -aG docker "$SUDO_USER"
+    sudo usermod -aG docker "$SUDO_USER"
     check_status
     
     show_status "啟動 Docker 服務..."
