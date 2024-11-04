@@ -1,0 +1,87 @@
+auth:
+  - user: foo
+    group: foo
+    uid: 1000
+    gid: 1000
+    password: bar
+  # 定义了一个用户 'foo'，属于 'foo' 组，UID 为 1000，GID 为 1000，密码为 'bar'
+  
+  - user: baz
+    group: xxx
+    uid: 1100
+    gid: 1200
+    password_file: /run/secrets/baz_password
+  # 定义了另一个用户 'baz'，属于 'xxx' 组，UID 为 1100，GID 为 1200，密码存储在文件 '/run/secrets/baz_password' 中
+
+global:
+  - "force user = foo"
+  - "force group = foo"
+  # 设置全局配置，强制所有操作都以 'foo' 用户和 'foo' 组的身份进行
+
+share:
+  - name: public
+    comment: Public
+    path: /samba/public
+    browsable: yes
+    readonly: yes
+    guestok: yes
+    veto: no
+    recycle: yes
+  # 定义一个名为 'public' 的共享
+  # 位置在 '/samba/public'
+  # 该共享是可浏览的 (browsable: yes)
+  # 只读 (readonly: yes)
+  # 允许访客访问 (guestok: yes)
+  # 不禁止任何文件 (veto: no)
+  # 启用回收站 (recycle: yes)
+
+  - name: share
+    path: /samba/share
+    browsable: yes
+    readonly: no
+    guestok: yes
+    writelist: foo
+    veto: no
+  # 定义一个名为 'share' 的共享
+  # 位置在 '/samba/share'
+  # 该共享是可浏览的 (browsable: yes)
+  # 可读写 (readonly: no)
+  # 允许访客访问 (guestok: yes)
+  # 允许 'foo' 用户写入 (writelist: foo)
+  # 不禁止任何文件 (veto: no)
+
+  - name: foo
+    path: /samba/foo
+    browsable: yes
+    readonly: no
+    guestok: no
+    validusers: foo
+    writelist: foo
+    veto: no
+    hidefiles: /_*/
+  # 定义一个名为 'foo' 的共享
+  # 位置在 '/samba/foo'
+  # 该共享是可浏览的 (browsable: yes)
+  # 可读写 (readonly: no)
+  # 不允许访客访问 (guestok: no)
+  # 只有 'foo' 用户可以访问 (validusers: foo)
+  # 允许 'foo' 用户写入 (writelist: foo)
+  # 不禁止任何文件 (veto: no)
+  # 隐藏以 '_' 开头的文件 (hidefiles: /_*/)
+
+  - name: foo-baz
+    path: /samba/foo-baz
+    browsable: yes
+    readonly: no
+    guestok: no
+    validusers: foo,baz
+    writelist: foo,baz
+    veto: no
+  # 定义一个名为 'foo-baz' 的共享
+  # 位置在 '/samba/foo-baz'
+  # 该共享是可浏览的 (browsable: yes)
+  # 可读写 (readonly: no)
+  # 不允许访客访问 (guestok: no)
+  # 只有 'foo' 和 'baz' 用户可以访问 (validusers: foo,baz)
+  # 允许 'foo' 和 'baz' 用户写入 (writelist: foo,baz)
+  # 不禁止任何文件 (veto: no)
