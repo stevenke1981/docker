@@ -7,7 +7,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 # 定義安裝位置
-docker_dir="$HOME/dockerdata/web-smb"
+local docker_dir="$HOME/dockerdata/web-smb"
 
 # 檢查是否為 root 用戶
 check_root() {
