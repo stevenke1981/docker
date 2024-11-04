@@ -336,18 +336,49 @@ volumes:
   website_data:
 EOF
 
-    # Nginx 配置保持不變
-    cat > $INSTALL_DIR/nginx.conf << 'EOF'
+    chmod -R 777 $INSTALL_DIR
+    chown -R $SUDO_USER:$SUDO_USER $INSTALL_DIR
+
+    show_status "服務文件已創建在 $INSTALL_DIR"
+    
+    cd $INSTALL_DIR
+    
+    # 創建測試頁面
+    mkdir -p $INSTALL_DIR/html
+    cat > $INSTALL_DIR/html/index.html << 'EOF'
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Web+SMB Test Page</title>
+</head>
+<body>
+    <h1>Welcome to Web+SMB Server</h1>
+    <p>If you can see this page, your web server is working correctly.</p>
+</body>
+</html>
+EOF
+
+    # Nginx 配置
+     cat > $INSTALL_DIR/nginx.conf << 'EOF'
 server {
     listen 80;
     server_name localhost;
     
+    # 修改根目錄配置
     root /usr/share/nginx/html;
     index index.html index.htm;
     
+    # 增加網站根目錄訪問配置
     location / {
         try_files $uri $uri/ =404;
         autoindex on;
+    }
+
+    # 增加 /website 路徑配置
+    location /website {
+        alias /usr/share/nginx/html;
+        autoindex on;
+        try_files $uri $uri/ =404;
     }
 }
 EOF
