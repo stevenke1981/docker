@@ -9,6 +9,23 @@ NC='\033[0m' # No Color
 # 定義安裝位置
 local docker_dir="$HOME/dockerdata/web-smb"
 
+# 自動創建目錄的函式
+create_directory_if_not_exists() {
+    local dir=$1
+    if [ ! -d "$dir" ]; then
+        echo "目錄 $dir 不存在，正在創建..."
+        mkdir -p "$dir"
+        if [ $? -eq 0 ]; then
+            echo "目錄創建成功！"
+        else
+            echo "目錄創建失敗！請檢查權限或手動創建目錄。"
+            exit 1
+        fi
+    else
+        echo "目錄 $dir 已存在。"
+    fi
+}
+
 # 檢查是否為 root 用戶
 check_root() {
     if [ "$EUID" -ne 0 ]; then
@@ -130,6 +147,7 @@ install_docker_compose() {
 
 # 設置 Web+SMB 服務
 setup_web_smb() {
+    create_directory_if_not_exists "$docker_dir"
     local INSTALL_DIR=$docker_dir
     show_status "創建安裝目錄..."
     mkdir -p $INSTALL_DIR
