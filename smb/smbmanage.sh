@@ -237,6 +237,7 @@ manage_docker_system() {
                     read -p "確定要移除 Web+SMB 服務嗎？(y/n) " confirm
                     if [ "$confirm" = "y" ]; then
                         remove_web_smb
+                        read -p "按 Space 鍵繼續..."
                     fi
                 else
                     echo -e "${YELLOW}Web+SMB 服務未安裝${NC}"
