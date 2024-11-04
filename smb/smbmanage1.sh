@@ -255,6 +255,7 @@ echo "docker-compose up -d"
 echo ""
 echo "注意：請記得修改 docker-compose.yml 中的默認密碼！"
 echo "當前設置的 SMB 用戶名為 'admin'，密碼為 'password'"
+}
 
 # 管理 Web+SMB 服務
 manage_web_smb() {
