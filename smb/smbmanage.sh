@@ -134,8 +134,8 @@ manage_web_smb() {
     local INSTALL_DIR=$docker_dir
     if [ ! -d "$INSTALL_DIR" ]; then
         echo -e "${RED}Web+SMB 服務尚未安裝！${NC}"
+        pause
         return 1
-        read -p "按 Enter 鍵繼續..."
     fi
     
     cd $INSTALL_DIR
@@ -437,26 +437,25 @@ main() {
                     echo -e "${YELLOW}Docker 已安裝！${NC}"
                 else
                     install_docker 
-                    read -p "按 Enter 鍵繼續..."
-                    
+                    pause                    
                 fi
                 ;;
             2)
                 if check_docker_compose; then
                     echo -e "${YELLOW}Docker Compose 已安裝！${NC}"
-                    read -p "按 Enter 鍵繼續..."
+                    pause
                 else
                     install_docker_compose
-                     read -p "按 Enter 鍵繼續..."
+                    pause
                 fi
                 ;;
             3)
                 if ! check_docker || ! check_docker_compose; then
                     echo -e "${RED}請先安裝 Docker 和 Docker Compose！${NC}"
-                     read -p "按 Enter 鍵繼續..."
+                    pause
                 else
                     setup_web_smb
-                     read -p "按 Enter 鍵繼續..."                    
+                    pause                    
                 fi
                 ;;
             4)
@@ -469,7 +468,7 @@ main() {
             5)
                 if ! check_docker; then
                     echo -e "${RED}請先安裝 Docker！${NC}"
-                     read -p "按 Enter 鍵繼續..."
+                    pause
                 else
                     manage_docker_system
                 fi
@@ -477,14 +476,14 @@ main() {
             6)
                 if ! check_docker; then
                     install_docker
-                     read -p "按 Enter 鍵繼續..."
+                    pause
                 fi
                 if ! check_docker_compose; then
                     install_docker_compose
-                     read -p "按 Enter 鍵繼續..."
+                    pause
                 fi
                 setup_web_smb
-                 read -p "按 Enter 鍵繼續..."
+                pause
                 ;;
             7)
                 echo "感謝使用！"
