@@ -152,8 +152,8 @@ setup_web_smb() {
     show_status "創建安裝目錄..."
     mkdir -p $INSTALL_DIR
 
-    # 更新的 Docker Compose 配置
-    cat > $INSTALL_DIR/docker-compose.yml << 'EOF'
+# 創建 docker-compose.yml
+cat > "$INSTALL_DIR/docker-compose.yml" << 'EOF'
 version: '3'
 services:
   nginx:
@@ -167,7 +167,6 @@ services:
     depends_on:
       - samba
     restart: unless-stopped
-
   samba:
     image: dperson/samba
     container_name: smb_server
@@ -182,89 +181,80 @@ services:
       - RECYCLE=true
       - FULL_AUDIT=true
       # SMB 版本控制
-      - SMB="min protocol = SMB2\nmax protocol = SMB3"
+      - SMB="min protocol = SMB2;max protocol = SMB3"
     volumes:
       - website_data:/share
     command: >
-   -u "admin;password"
-   -s "website;/share;yes;no;no;admin;admin;admin;Website Share"
-   -p
-   -n
-   -r
-   -w "WORKGROUP"
-   -g "client min protocol = SMB2;client max protocol = SMB3"
-    restart: unless-stopped
-
+      -u "admin;password"
+      -s "website;/share;yes;no;no;admin;admin;admin;Website Share"
+      -p
+      -n
+      -r
+      -w "WORKGROUP"
+      -g "client min protocol = SMB2;client max protocol = SMB3"
+    restart: always
 volumes:
   website_data:
 EOF
 
-    chmod -R 777 $INSTALL_DIR
-    chown -R $SUDO_USER:$SUDO_USER $INSTALL_DIR
+# 創建 nginx 配置文件
+cat > "$INSTALL_DIR/nginx.conf" << 'EOF'
+server {
+    listen       80;
+    server_name  localhost;
 
-    show_status "服務文件已創建在 $INSTALL_DIR"
-    
-    cd $INSTALL_DIR
-    
-    # 創建測試頁面
-    mkdir -p $INSTALL_DIR/html
-    cat > $INSTALL_DIR/html/index.html << 'EOF'
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+        autoindex on;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}
+EOF
+
+# 創建測試頁面
+cat > "$INSTALL_DIR/index.html" << 'EOF'
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Web+SMB Test Page</title>
+    <title>Welcome to Web+SMB Server</title>
+    <style>
+        body {
+            width: 35em;
+            margin: 0 auto;
+            font-family: Tahoma, Verdana, Arial, sans-serif;
+        }
+    </style>
 </head>
 <body>
     <h1>Welcome to Web+SMB Server</h1>
-    <p>If you can see this page, your web server is working correctly.</p>
+    <p>If you see this page, the web server is successfully installed and working.</p>
 </body>
 </html>
 EOF
 
-    # Nginx 配置
-     cat > $INSTALL_DIR/nginx.conf << 'EOF'
-server {
-    listen 80;
-    server_name localhost;
-    
-    # 修改根目錄配置
-    root /usr/share/nginx/html;
-    index index.html index.htm;
-    
-    # 增加網站根目錄訪問配置
-    location / {
-        try_files $uri $uri/ =404;
-        autoindex on;
-    }
+# 設置權限
+chmod 644 "$INSTALL_DIR/docker-compose.yml"
+chmod 644 "$INSTALL_DIR/nginx.conf"
+chmod 644 "$INSTALL_DIR/index.html"
 
-    # 增加 /website 路徑配置
-    location /website {
-        alias /usr/share/nginx/html;
-        autoindex on;
-        try_files $uri $uri/ =404;
-    }
-}
-EOF
+echo "檔案已創建在 $INSTALL_DIR 目錄下："
+echo "1. docker-compose.yml"
+echo "2. nginx.conf"
+echo "3. index.html"
+echo ""
+echo "請確認設定後執行以下命令啟動服務："
+echo "cd $INSTALL_DIR"
+echo "docker-compose up -d"
 
-    chmod -R 777 $INSTALL_DIR
-    chown -R $SUDO_USER:$SUDO_USER $INSTALL_DIR
-
-    show_status "服務文件已創建在 $INSTALL_DIR"
-    
-    cd $INSTALL_DIR
-    docker-compose up -d
-
-    LOCAL_IP=$(hostname -I | awk '{print $1}')
-    echo -e "${GREEN}服務已啟動！${NC}"
-    echo -e "網頁訪問：http://$LOCAL_IP"
-    echo -e "SMB 網路芳鄰訪問："
-    echo -e "  Windows 檔案總管輸入：\\\\$LOCAL_IP\\website"
-    echo -e "  Windows 登入資訊："
-    echo -e "    用戶名：admin"
-    echo -e "    密碼：password"
-    echo -e "  或在網路芳鄰中尋找 'Samba Server'"
-}
-
+# 提示用戶修改密碼
+echo ""
+echo "注意：請記得修改 docker-compose.yml 中的默認密碼！"
+echo "當前設置的 SMB 用戶名為 'admin'，密碼為 'password'"
 
 # 管理 Web+SMB 服務
 manage_web_smb() {
