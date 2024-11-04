@@ -7,6 +7,9 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
+#定義安裝位置
+$docker_dir='~/dockerdata/web-smb'
+
 # 檢查是否為 root 用戶
 check_root() {
     if [ "$EUID" -ne 0 ]; then
@@ -50,7 +53,7 @@ remove_docker() {
 # 補充移除 Web+SMB 的函數
 remove_web_smb() {
     show_status "移除 Web+SMB 服務..."
-    rm -rf ~/dockerdata/web-smb
+    rm -rf $docker_dir
     check_status
 }
 
@@ -128,10 +131,11 @@ install_docker_compose() {
 
 # 管理 Web+SMB 服務
 manage_web_smb() {
-    local INSTALL_DIR="/home/docker/web-smb"
+    local INSTALL_DIR=$docker_dir
     if [ ! -d "$INSTALL_DIR" ]; then
         echo -e "${RED}Web+SMB 服務尚未安裝！${NC}"
         return 1
+        read -p "按 Enter 鍵繼續..."
     fi
     
     cd $INSTALL_DIR
@@ -233,7 +237,7 @@ manage_docker_system() {
                 read -p "按 Enter 鍵繼續..."
                 ;;
             7)
-                if [ -d "/home/docker/web-smb" ]; then
+                if [ -d $docker_dir ]; then
                     read -p "確定要移除 Web+SMB 服務嗎？(y/n) " confirm
                     if [ "$confirm" = "y" ]; then
                         remove_web_smb
@@ -286,7 +290,7 @@ manage_docker_system() {
 
 # 設置 Web+SMB 服務
 setup_web_smb() {
-    local INSTALL_DIR="/home/docker/web-smb"
+    local INSTALL_DIR=$docker_dir
     show_status "創建安裝目錄..."
     mkdir -p $INSTALL_DIR
 
