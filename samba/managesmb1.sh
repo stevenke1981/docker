@@ -347,7 +347,8 @@ manage_web_smb() {
                 read -p "按 Enter 鍵繼續..."
                 ;;
             2)
-                docker-compose down
+                #docker-compose down
+                stop_services()
                 echo -e "${YELLOW}服務已停止${NC}"
                 read -p "按 Enter 鍵繼續..."
                 ;;
