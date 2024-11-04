@@ -436,21 +436,27 @@ main() {
                 if check_docker; then
                     echo -e "${YELLOW}Docker 已安裝！${NC}"
                 else
-                    install_docker
+                    install_docker 
+                    read -p "按 Enter 鍵繼續..."
+                    
                 fi
                 ;;
             2)
                 if check_docker_compose; then
                     echo -e "${YELLOW}Docker Compose 已安裝！${NC}"
+                    read -p "按 Enter 鍵繼續..."
                 else
                     install_docker_compose
+                     read -p "按 Enter 鍵繼續..."
                 fi
                 ;;
             3)
                 if ! check_docker || ! check_docker_compose; then
                     echo -e "${RED}請先安裝 Docker 和 Docker Compose！${NC}"
+                     read -p "按 Enter 鍵繼續..."
                 else
                     setup_web_smb
+                     read -p "按 Enter 鍵繼續..."                    
                 fi
                 ;;
             4)
@@ -463,6 +469,7 @@ main() {
             5)
                 if ! check_docker; then
                     echo -e "${RED}請先安裝 Docker！${NC}"
+                     read -p "按 Enter 鍵繼續..."
                 else
                     manage_docker_system
                 fi
@@ -470,11 +477,14 @@ main() {
             6)
                 if ! check_docker; then
                     install_docker
+                     read -p "按 Enter 鍵繼續..."
                 fi
                 if ! check_docker_compose; then
                     install_docker_compose
+                     read -p "按 Enter 鍵繼續..."
                 fi
                 setup_web_smb
+                 read -p "按 Enter 鍵繼續..."
                 ;;
             7)
                 echo "感謝使用！"
