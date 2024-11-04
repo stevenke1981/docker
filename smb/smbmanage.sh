@@ -248,9 +248,11 @@ manage_docker_system() {
                     read -p "確定要移除 Docker Compose 嗎？(y/n) " confirm
                     if [ "$confirm" = "y" ]; then
                         remove_docker_compose
+                        read -p "按 Enter 鍵繼續..."
                     fi
                 else
                     echo -e "${YELLOW}Docker Compose 未安裝${NC}"
+                    read -p "按 Enter 鍵繼續..."
                 fi
                 read -p "按 Enter 鍵繼續..."
                 ;;
@@ -261,10 +263,12 @@ manage_docker_system() {
                         read -p "再次確認，這個操作無法恢復！(y/n) " confirm2
                         if [ "$confirm2" = "y" ]; then
                             remove_docker
+                            read -p "按 Enter 鍵繼續..."
                         fi
                     fi
                 else
                     echo -e "${YELLOW}Docker 未安裝${NC}"
+                    read -p "按 Enter 鍵繼續..."
                 fi
                 read -p "按 Enter 鍵繼續..."
                 ;;
