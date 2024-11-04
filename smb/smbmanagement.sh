@@ -272,8 +272,8 @@ manage_docker_system() {
         else
             echo -e "${YELLOW}Docker 未安裝${NC}"
         fi
-        
-        ;;read -p "按 Enter 鍵繼續..."  # 暫停
+        read -p "按 Enter 鍵繼續..."  # 暫停
+        ;;
     10)
         echo "感謝使用！"
         exit 0
