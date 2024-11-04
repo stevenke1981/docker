@@ -1,6 +1,6 @@
 #本腳本僅適用在armbian bookworm
 #!/bin/bash
-source stopwebserver.sh
+source ./stopwebserver.sh
 
 # 顏色定義
 RED='\033[0;31m'
@@ -348,7 +348,7 @@ manage_web_smb() {
                 ;;
             2)
                 #docker-compose down
-                stop_services()
+                stop_services
                 echo -e "${YELLOW}服務已停止${NC}"
                 read -p "按 Enter 鍵繼續..."
                 ;;
