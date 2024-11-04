@@ -324,13 +324,13 @@ services:
     volumes:
       - website_data:/share
     command: >
-      -u "admin;password" \
-      -s "website;/share;yes;no;no;admin;admin;admin;Website Share" \
-      -p \
-      -n \
-      -r \
-      -w "WORKGROUP" \
-      -g "client min protocol = SMB2;client max protocol = SMB3"
+   -u "admin;password"
+   -s "website;/share;yes;no;no;admin;admin;admin;Website Share"
+   -p
+   -n
+   -r
+   -w "WORKGROUP"
+   -g "client min protocol = SMB2;client max protocol = SMB3"
     restart: unless-stopped
 
 volumes:
