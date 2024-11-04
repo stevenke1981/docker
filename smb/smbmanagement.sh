@@ -131,26 +131,34 @@ manage_web_smb() {
             1)
                 docker-compose up -d
                 echo -e "${GREEN}服務已啟動${NC}"
+                read -p "按 Enter 鍵繼續..."  # 暫停
                 ;;
             2)
                 docker-compose down
                 echo -e "${YELLOW}服務已停止${NC}"
+                read -p "按 Enter 鍵繼續..."  # 暫停
                 ;;
             3)
                 docker-compose restart
                 echo -e "${GREEN}服務已重啟${NC}"
+                read -p "按 Enter 鍵繼續..."  # 暫停
+                
                 ;;
             4)
                 docker-compose ps
+                read -p "按 Enter 鍵繼續..."  # 暫停
                 ;;
             5)
                 docker-compose logs
+                read -p "按 Enter 鍵繼續..."  # 暫停
                 ;;
             6)
                 return 0
                 ;;
             *)
                 echo -e "${RED}無效的選擇！${NC}"
+                read -p "按 Enter 鍵繼續..."  # 暫停
+                
                 ;;
         esac
         read -p "按 Enter 鍵繼續..."
@@ -180,22 +188,30 @@ manage_docker_system() {
         
         case $choice in
             1)
-                docker ps -a
+                docker ps -aread -p "按 Enter 鍵繼續..."  # 暫停
+                
                 ;;
             2)
                 docker images
+                read -p "按 Enter 鍵繼續..."  # 暫停
                 ;;
             3)
                 docker container prune -f
+                read -p "按 Enter 鍵繼續..."  # 暫停
                 ;;
             4)
-                docker image prune -f
+                docker image prune -f 
+                read -p "按 Enter 鍵繼續..."  # 暫停
+                
                 ;;
             5)
                 docker system prune -f
+                read -p "按 Enter 鍵繼續..."  # 暫停
                 ;;
             6)
-                start_docker
+                start_docker 
+                read -p "按 Enter 鍵繼續..."  # 暫停
+                
                 ;;
             7)
         if [ -d "/home/docker/web-smb" ]; then
@@ -206,6 +222,7 @@ manage_docker_system() {
         else
             echo -e "${YELLOW}Web+SMB 服務未安裝${NC}"
         fi
+        read -p "按 Enter 鍵繼續..."  # 暫停
         ;;
     8)
         if check_docker_compose; then
@@ -216,6 +233,7 @@ manage_docker_system() {
         else
             echo -e "${YELLOW}Docker Compose 未安裝${NC}"
         fi
+        read -p "按 Enter 鍵繼續..."  # 暫停
         ;;
     9)
         if check_docker; then
@@ -229,7 +247,8 @@ manage_docker_system() {
         else
             echo -e "${YELLOW}Docker 未安裝${NC}"
         fi
-        ;;
+        
+        ;;read -p "按 Enter 鍵繼續..."  # 暫停
     10)
         echo "感謝使用！"
         exit 0
