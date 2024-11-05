@@ -10,6 +10,7 @@ NC='\033[0m' # No Color
 # Docker Mosquitto 配置
 MOSQUITTO_CONTAINER="mosquitto"
 MOSQUITTO_PORT="1883"
+MOSQUITTO_DIR="$HOME/mosquitto"
 MOSQUITTO_CONFIG_DIR="$HOME/mosquitto/config"
 MOSQUITTO_DATA_DIR="$HOME/mosquitto/data"
 MOSQUITTO_LOG_DIR="$HOME/mosquitto/log"
@@ -69,6 +70,9 @@ remove_mosquitto() {
   
   # 檢查容器狀態
   check_mosquitto_status
+
+  #移除MOSQUITTO資料夾
+  rm -rf "$MOSQUITTO_DIR"
 }
 
 # 主程式循環
