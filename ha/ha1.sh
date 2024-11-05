@@ -74,7 +74,7 @@ function remove_homeassistant() {
   docker stop homeassistant && docker rm homeassistant
 
   # 移除 HomeAssistant 目錄
-  rm -rf "$HOME/homeassistant"
+  sudo rm -rf "$HOME/homeassistant"
   
   # 檢查容器狀態
   check_homeassistant_status
