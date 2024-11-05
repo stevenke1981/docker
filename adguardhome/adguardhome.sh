@@ -69,10 +69,10 @@ function remove_adguardhome() {
 
   # 停止並移除容器
   docker stop adguardhome && docker rm adguardhome
-  rm /etc/resolv.conf
-  mv /etc/resolv.conf.backup /etc/resolv.conf
-  rm -rf /etc/systemd/resolved.conf.d
-  systemctl restart systemd-resolved
+  sudo rm /etc/resolv.conf
+  sudo mv /etc/resolv.conf.backup /etc/resolv.conf
+  sudo rm -rf /etc/systemd/resolved.conf.d
+  sudo systemctl restart systemd-resolved
 
   # 提示用戶是否保留資料夾
   while true; do
@@ -85,7 +85,7 @@ function remove_adguardhome() {
         ;;
       n|N)
         echo -e "${RED}移除資料夾。${NC}"
-        rm -rf "$WORK_DIR" "$CONFIG_DIR"
+        sudo rm -rf "$WORK_DIR" "$CONFIG_DIR"
         break
         ;;
       *)
@@ -100,16 +100,16 @@ function remove_adguardhome() {
 # Function: 設置 systemd-resolved
 function configure_systemd_resolved() {
   if [ ! -f /etc/systemd/resolved.conf.d/adguardhome.conf ]; then
-    mkdir -p /etc/systemd/resolved.conf.d
+    sudo mkdir -p /etc/systemd/resolved.conf.d
     echo -e "${YELLOW}建立設定檔 /etc/systemd/resolved.conf.d/adguardhome.conf...${NC}"
     echo '[Resolve]
 DNS=127.0.0.1
 DNSStubListener=no' | tee /etc/systemd/resolved.conf.d/adguardhome.conf
   fi
   
-  mv /etc/resolv.conf /etc/resolv.conf.backup
-  ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf
-  systemctl reload-or-restart systemd-resolved
+  sudo mv /etc/resolv.conf /etc/resolv.conf.backup
+  sudo ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf
+  sudo systemctl reload-or-restart systemd-resolved
 }
 
 # 主程式循環
