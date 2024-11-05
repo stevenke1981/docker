@@ -63,6 +63,14 @@ EOL
   check_mosquitto_status
 }
 
+ #移除MOSQUITTO資料夾
+ remove_dictonary() {
+  sudo rm -rf "$MOSQUITTO_DIR"
+  echo "${RED}==========================="
+  echo "刪除 "$MOSQUITTO_DIR" 成功 "
+  echo "${RED}==========================="
+  }
+
 # 移除 Mosquitto 容器
 remove_mosquitto() {
   echo -e "${RED}正在移除 Mosquitto Docker 容器...${NC}"
@@ -72,7 +80,7 @@ remove_mosquitto() {
   check_mosquitto_status
 
   #移除MOSQUITTO資料夾
-  rm -rf "$MOSQUITTO_DIR"
+  remove_dictonary
 }
 
 # 主程式循環
