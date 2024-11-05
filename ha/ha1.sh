@@ -63,7 +63,7 @@ function install_homeassistant() {
   # 檢查容器狀態
   check_homeassistant_status
   echo -e "${GREEN}HomeAssist 安裝完成。${NC}"
-  echo -e "${BLUE}HomeAssist accessible at: http://$(hostname -I | awk '{print $1}'):8123${NC}"
+  echo -e "${GREEN}HomeAssist accessible at: http://$(hostname -I | awk '{print $1}'):8123${NC}"
 }
 
 # Function: Remove HomeAssistant
