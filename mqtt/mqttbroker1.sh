@@ -66,9 +66,9 @@ EOL
  #移除MOSQUITTO資料夾
  remove_dictonary() {
   sudo rm -rf "$MOSQUITTO_DIR"
-  echo "${RED}===========================${NC}"
+  echo -e "${RED}===========================${NC}"
   echo "刪除 "$MOSQUITTO_DIR" 成功 "
-  echo "${RED}===========================${NC}"
+  echo -e "${RED}===========================${NC}"
   }
 
 # 移除 Mosquitto 容器
