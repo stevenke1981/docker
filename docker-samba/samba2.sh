@@ -136,6 +136,7 @@ function install_samba() {
     -e SAMBA_LOG_LEVEL=0 \
     -e WSDD2_ENABLE=1 \
     -e WSDD2_NETBIOS_NAME=mydockersmb \
+    -e SAMBA_HOSTS_ALLOW="192.168.80.0/16" \
     crazymax/samba
 
   # 檢查服務狀態
