@@ -65,7 +65,7 @@ services:
       - "${SAMBA_FOO_DIR}:/samba/foo"
       - "${SAMBA_FOO_BAZ_DIR}:/samba/foo-baz"
     environment:
-      - TZ=Europe/Paris
+      - TZ=Asia/Taipei
       - SAMBA_LOG_LEVEL=0
       - WSDD2_ENABLE=1
       - WSDD2_NETBIOS_NAME=mydocker_samba
@@ -93,8 +93,6 @@ global:
   - "force user = ${USER1}"
   - "force group = ${GROUP1}"
   - "ntlm auth = yes"
-  - "lanman auth = no"
-  - "client ntlmv2 auth = yes"
   - "min protocol = SMB2"
 
 share:
