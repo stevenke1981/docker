@@ -68,7 +68,7 @@ services:
       - TZ=Europe/Paris
       - SAMBA_LOG_LEVEL=0
       - WSDD2_ENABLE=1
-      - WSDD2_NETBIOS_NAME=docker_samba
+      - WSDD2_NETBIOS_NAME=mydocker_samba
     restart: always
 EOF
   echo -e "${GREEN}docker-compose.yml 文件已建立於 ${HOME}/samba/docker-compose.yml。${NC}"
