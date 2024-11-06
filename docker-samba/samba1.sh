@@ -10,7 +10,7 @@ NC='\033[0m' # No Color
 
 # 使用者設置
 USER1="steven"
-GROUP1="admin"
+GROUP1="steven"
 UID1=1000
 GID1=1000
 PASSWORD1="super"
