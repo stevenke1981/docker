@@ -160,7 +160,7 @@ function remove_samba() {
         ;;
       n|N)
         echo -e "${RED}移除資料夾。${NC}"
-        rm -rf "${HOME}/samba"
+        sudo rm -rf "${HOME}/samba"
         break
         ;;
       *)
