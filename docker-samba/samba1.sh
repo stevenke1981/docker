@@ -92,6 +92,10 @@ auth:
 global:
   - "force user = ${USER1}"
   - "force group = ${GROUP1}"
+  - "ntlm auth = yes"
+  - "lanman auth = no"
+  - "client ntlmv2 auth = yes"
+  - "min protocol = SMB2"
 
 share:
   - name: public
