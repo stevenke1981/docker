@@ -1,5 +1,5 @@
 #!/bin/bash
-# ver 1.0.0
+# ver1.1.1
 
 # 顏色設置
 RED='\033[0;31m'
@@ -8,9 +8,12 @@ YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# 定義常數目錄
+# 定義目錄
 SAMBA_DATA_DIR="${HOME}/samba/data"
-SAMBA_CONFIG_DIR="${HOME}/samba/config"
+SAMBA_PUBLIC_DIR="${HOME}/samba/public"
+SAMBA_SHARE_DIR="${HOME}/samba/share"
+SAMBA_FOO_DIR="${HOME}/samba/foo"
+SAMBA_FOO_BAZ_DIR="${HOME}/samba/foo-baz"
 
 # Function: 顯示選單
 function show_menu() {
@@ -21,44 +24,120 @@ function show_menu() {
   echo -n -e "${GREEN}輸入您的選擇： ${NC}"
 }
 
-# Function: 檢查 Samba 容器狀態
+# Function: 檢查 Samba 服務狀態
 check_samba_status() {
-  if docker ps | grep -q "samba"; then
-    echo -e "${GREEN}Samba 容器正在運行。${NC}"
+  if docker compose ps | grep -q "samba"; then
+    echo -e "${GREEN}Samba 服務正在運行。${NC}"
   else
-    echo -e "${RED}Samba 容器未運行。${NC}"
+    echo -e "${RED}Samba 服務未運行。${NC}"
   fi
+}
+
+# Function: 建立 docker-compose.yml 文件
+function create_compose_file() {
+  cat <<EOF > "${HOME}/samba/docker-compose.yml"
+services:
+  samba:
+    image: crazymax/samba
+    container_name: samba
+    hostname: docker_samba
+    network_mode: host
+    cap_add:
+      - CAP_NET_ADMIN
+      - CAP_NET_RAW
+    volumes:
+      - "${SAMBA_DATA_DIR}:/data"
+      - "${SAMBA_PUBLIC_DIR}:/samba/public"
+      - "${SAMBA_SHARE_DIR}:/samba/share"
+      - "${SAMBA_FOO_DIR}:/samba/foo"
+      - "${SAMBA_FOO_BAZ_DIR}:/samba/foo-baz"
+    environment:
+      - TZ=Europe/Paris
+      - SAMBA_LOG_LEVEL=0
+      - WSDD2_ENABLE=1
+      - WSDD2_NETBIOS_NAME=docker_samba
+    restart: always
+EOF
+  echo -e "${GREEN}docker-compose.yml 文件已建立於 ${HOME}/samba/docker-compose.yml。${NC}"
+}
+
+# Function: 建立 config.yml 檔案
+function create_config_file() {
+  cat <<EOF > "${SAMBA_DATA_DIR}/config.yml"
+auth:
+  - user: foo
+    group: foo
+    uid: 1000
+    gid: 1000
+    password: bar
+  - user: baz
+    group: xxx
+    uid: 1100
+    gid: 1200
+    password_file: /run/secrets/baz_password
+
+global:
+  - "force user = foo"
+  - "force group = foo"
+
+share:
+  - name: public
+    comment: Public
+    path: /samba/public
+    browsable: yes
+    readonly: yes
+    guestok: yes
+    veto: no
+    recycle: yes
+  - name: share
+    path: /samba/share
+    browsable: yes
+    readonly: no
+    guestok: yes
+    writelist: foo
+    veto: no
+  - name: foo
+    path: /samba/foo
+    browsable: yes
+    readonly: no
+    guestok: no
+    validusers: foo
+    writelist: foo
+    veto: no
+    hidefiles: /_*/
+  - name: foo-baz
+    path: /samba/foo-baz
+    browsable: yes
+    readonly: no
+    guestok: no
+    validusers: foo,baz
+    writelist: foo,baz
+    veto: no
+EOF
+  echo -e "${GREEN}config.yml 文件已建立於 ${SAMBA_DATA_DIR}/config.yml。${NC}"
 }
 
 # Function: 安裝 Samba
 function install_samba() {
   echo -e "${GREEN}正在安裝 Samba...${NC}"
 
-  # 檢查是否已有 samba 容器存在
-  if docker ps -a --format '{{.Names}}' | grep -q "^samba$"; then
-    echo -e "${YELLOW}發現已存在的 Samba 容器，正在移除舊容器...${NC}"
-    docker stop samba && docker rm samba
+  # 停止已存在的 Samba 服務
+  if docker compose ps | grep -q "samba"; then
+    echo -e "${YELLOW}發現已存在的 Samba 服務，正在移除舊服務...${NC}"
+    docker compose -f "${HOME}/samba/docker-compose.yml" down
   fi
 
-  # 確保 Samba 數據和設定目錄存在
-  if [ ! -d "$SAMBA_DATA_DIR" ]; then
-    echo -e "${YELLOW}建立數據目錄：$SAMBA_DATA_DIR${NC}"
-    mkdir -p "$SAMBA_DATA_DIR"
-  fi
+  # 確保 Samba 數據和目錄存在
+  mkdir -p "$SAMBA_DATA_DIR" "$SAMBA_PUBLIC_DIR" "$SAMBA_SHARE_DIR" "$SAMBA_FOO_DIR" "$SAMBA_FOO_BAZ_DIR"
 
-  if [ ! -d "$SAMBA_CONFIG_DIR" ]; then
-    echo -e "${YELLOW}建立設定目錄：$SAMBA_CONFIG_DIR${NC}"
-    mkdir -p "$SAMBA_CONFIG_DIR"
-  fi
+  # 建立配置文件
+  create_compose_file
+  create_config_file
 
-  # 啟動 Samba Docker 容器
-  docker run -d --name samba \
-    -p 137:137/udp -p 138:138/udp -p 139:139 -p 445:445 \
-    -v "$SAMBA_DATA_DIR":/mount/data \
-    -v "$SAMBA_CONFIG_DIR":/etc/samba \
-    crazymax/samba
+  # 啟動 Samba 服務
+  docker compose -f "${HOME}/samba/docker-compose.yml" up -d
 
-  # 檢查容器狀態
+  # 檢查服務狀態
   check_samba_status
   echo -e "${GREEN}Samba 伺服器已安裝完成。${NC}"
 }
@@ -67,12 +146,12 @@ function install_samba() {
 function remove_samba() {
   echo -e "${RED}移除 Samba...${NC}"
 
-  # 停止並移除容器
-  docker stop samba && docker rm samba
+  # 停止並移除 Samba 服務
+  docker compose -f "${HOME}/samba/docker-compose.yml" down
 
   # 提示用戶是否保留資料夾
   while true; do
-    read -p "是否保留數據目錄 (${SAMBA_DATA_DIR}) 和設定目錄 (${SAMBA_CONFIG_DIR})？ [y/n] " keep_directories
+    read -p "是否保留資料目錄 (${HOME}/samba)？ [y/n] " keep_directories
 
     case "$keep_directories" in
       y|Y)
@@ -81,7 +160,7 @@ function remove_samba() {
         ;;
       n|N)
         echo -e "${RED}移除資料夾。${NC}"
-        rm -rf "$SAMBA_DATA_DIR" "$SAMBA_CONFIG_DIR"
+        rm -rf "${HOME}/samba"
         break
         ;;
       *)
