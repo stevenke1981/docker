@@ -132,10 +132,10 @@ function install_samba() {
     -v "$SAMBA_SHARE_DIR:/samba/share" \
     -v "$SAMBA_FOO_DIR:/samba/foo" \
     -v "$SAMBA_FOO_BAZ_DIR:/samba/foo-baz" \
-    -e TZ=Europe/Paris \
+    -e TZ=Asia/Taipei \
     -e SAMBA_LOG_LEVEL=0 \
     -e WSDD2_ENABLE=1 \
-    -e WSDD2_NETBIOS_NAME=mydocker_samba \
+    -e WSDD2_NETBIOS_NAME=mydockersmb \
     crazymax/samba
 
   # 檢查服務狀態
