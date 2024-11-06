@@ -26,7 +26,7 @@ function show_menu() {
 
 # Function: 檢查 Samba 服務狀態
 check_samba_status() {
-  if docker compose ps | grep -q "samba"; then
+  if docker ps --filter "name=samba" --filter "status=running" | grep -q "samba"; then
     echo -e "${GREEN}Samba 服務正在運行。${NC}"
   else
     echo -e "${RED}Samba 服務未運行。${NC}"
