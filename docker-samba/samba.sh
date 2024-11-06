@@ -122,7 +122,7 @@ function install_samba() {
   echo -e "${GREEN}正在安裝 Samba...${NC}"
 
   # 停止已存在的 Samba 服務
-  if docker compose ps | grep -q "samba"; then
+  if docker ps | grep -q "samba"; then
     echo -e "${YELLOW}發現已存在的 Samba 服務，正在移除舊服務...${NC}"
     docker compose -f "${HOME}/samba/docker-compose.yml" down
   fi
