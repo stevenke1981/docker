@@ -1,0 +1,9 @@
+Samba does not have a Network Discovery server, 
+see here for one: https://github.com/christgau/wsdd
+
+armbian Quick start 
+
+sudo apt install wsdd
+
+sudo systemctl enable wsdd
+sudo systemctl start wsdd
