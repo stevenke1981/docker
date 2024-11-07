@@ -54,7 +54,7 @@ function install_samba() {
   mkdir -p "$SAMBA_PUBLIC_DIR" "$SAMBA_USERS_DIR" "$SAMBA_USER1_PRIVATE_DIR" "$SAMBA_USER2_PRIVATE_DIR"
 
   # 啟動 Samba 容器
-  docker run -it -d \
+  sudo docker run -it -d \
     --name samba \
     -m 512m \
     -p 139:139 -p 445:445 \
