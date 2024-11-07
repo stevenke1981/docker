@@ -141,6 +141,7 @@ while true; do
     case $choice in
         1)
             # 這裡可以執行之前的安裝腳本
+            source ./install-samba.sh
             echo -e "${YELLOW}請執行 install-samba.sh 進行安裝${NC}"
             ;;
         2)
