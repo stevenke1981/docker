@@ -59,12 +59,13 @@ function install_samba() {
     -m 512m \
     -p 139:139 -p 445:445 \
     dperson/samba -p \
+    -n yes \
     -u "${USER1};${PASSWORD1}" \
     -u "${USER2};${PASSWORD2}" \
     -s "public;${SAMBA_PUBLIC_DIR}" \
     -s "users;${SAMBA_USERS_DIR};no;no;no;${USER1},${USER2}" \
     -s "${USER1} private share;${SAMBA_USER1_PRIVATE_DIR};no;no;no;${USER1}" \
-    -s "${USER2} private share;${SAMBA_USER2_PRIVATE_DIR};no;no;no;${USER2}"
+    -s "${USER2} private share;${SAMBA_USER2_PRIVATE_DIR};no;no;no;${USER2}" 
 
   # 檢查服務狀態
   check_samba_status
