@@ -60,7 +60,7 @@ function install_samba() {
     -p 139:139 -p 445:445 \
     dperson/samba -p \
     -n yes \
-    -v "${SAMBA_BASE_DIR}":/share
+    -v "${SAMBA_BASE_DIR}":/share \
     -u "${USER1};${PASSWORD1}" \
     -u "${USER2};${PASSWORD2}" \
     -s "public;${SAMBA_PUBLIC_DIR}" \
