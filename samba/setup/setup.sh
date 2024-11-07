@@ -1,5 +1,5 @@
 #!/bin/bash
-source ./install-samba.sh
+
 
 # ======================
 # 可配置區域 - 依需求修改
@@ -141,7 +141,8 @@ while true; do
     case $choice in
         1)
             # 這裡可以執行之前的安裝腳本
-            echo -e "${YELLOW}請執行 install-samba.sh 進行安裝${NC}"
+            source ./install-samba.sh
+            # echo -e "${YELLOW}請執行 install-samba.sh 進行安裝${NC}"
             ;;
         2)
             restart_samba
