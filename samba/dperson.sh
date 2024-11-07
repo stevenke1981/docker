@@ -56,6 +56,7 @@ function install_samba() {
   # 啟動 Samba 容器
   docker run -it -d \
     --name samba \
+    -m 512m \
     -p 139:139 -p 445:445 \
     dperson/samba -p \
     -u "${USER1};${PASSWORD1}" \
