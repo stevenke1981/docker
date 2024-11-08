@@ -12,7 +12,7 @@ NC='\033[0m' # No Color
 # HomeAssistant 目錄設定
 config_dir="$HOME/homeassistant/config"
 hacs_dir="$config_dir/custom_components/hacs"
-hacs_zip_url="https://github.com/hacs/integration/releases/download/1.34.0/hacs.zip"
+hacs_zip_url="https://github.com/hacs/integration/releases/download/2.0.1/hacs.zip"
 hacs_zip_path="$hacs_dir/hacs.zip"
 
 # Function: Show the menu
